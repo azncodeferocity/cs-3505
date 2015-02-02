@@ -1,0 +1,65 @@
+<!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><i><font color="#9A1900">//Written by Caius Worthen on 1/15/15</font></i>
+<i><font color="#9A1900">//This program determines whether an integer given by command line argument is prime.</font></i>
+
+<b><font color="#000080">#include</font></b><font color="#FF0000">&lt;iostream&gt;</font>
+<b><font color="#000080">#include</font></b><font color="#FF0000">&lt;stdlib.h&gt;</font>
+
+<b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;</font>
+
+<font color="#009900">bool</font> <b><font color="#000000">isPrime</font></b><font color="#990000">(</font><font color="#009900">int</font> input<font color="#990000">);</font>
+
+<font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#009900">int</font> argc<font color="#990000">,</font> <font color="#009900">char</font><font color="#990000">**</font> argv<font color="#990000">)</font> <font color="#FF0000">{</font>
+	<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>argc <font color="#990000">!=</font> <font color="#993399">2</font><font color="#990000">)</font> <font color="#FF0000">{</font> <i><font color="#9A1900">//invalid argument count</font></i>
+		cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Invalid number of arguments, "</font> <font color="#990000">&lt;&lt;</font> argc <font color="#990000">-</font> <font color="#993399">1</font> <font color="#990000">&lt;&lt;</font> <font color="#FF0000">" given, 1 expected."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+		<b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+	<font color="#FF0000">}</font>
+
+	<font color="#008080">string</font> outputString<font color="#990000">;</font>
+
+	 <i><font color="#9A1900">//This will point to the character in the string directly after the last parsed value. Later we check if it's</font></i>
+	 <i><font color="#9A1900">//the null character, meaning it's the end of the string.</font></i>
+	<font color="#009900">char</font><font color="#990000">*</font> endPointer <font color="#990000">=</font> NULL<font color="#990000">;</font>
+	<font color="#009900">int</font> parsedInt <font color="#990000">=</font> <b><font color="#000000">strtol</font></b><font color="#990000">(</font>argv<font color="#990000">[</font><font color="#993399">1</font><font color="#990000">],</font> <font color="#990000">&amp;</font>endPointer<font color="#990000">,</font> <font color="#993399">10</font><font color="#990000">);</font>
+
+	<b><font color="#0000FF">if</font></b><font color="#990000">(*</font>endPointer <font color="#990000">==</font> <font color="#FF0000">'</font><font color="#CC33CC">\0</font><font color="#FF0000">'</font><font color="#990000">)</font> <font color="#FF0000">{</font> <i><font color="#9A1900">//If the entire inputted string is an integer</font></i>
+		<b><font color="#0000FF">if</font></b><font color="#990000">(</font><b><font color="#000000">isPrime</font></b><font color="#990000">(</font>parsedInt<font color="#990000">))</font> <font color="#FF0000">{</font>
+			outputString <font color="#990000">=</font> <font color="#FF0000">"prime"</font><font color="#990000">;</font>
+		<font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+			outputString <font color="#990000">=</font> <font color="#FF0000">"composite"</font><font color="#990000">;</font>
+		<font color="#FF0000">}</font>
+	<font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font> <i><font color="#9A1900">//If the entire inputted string is NOT an integer</font></i>
+		outputString <font color="#990000">=</font> <font color="#FF0000">"composite"</font><font color="#990000">;</font>
+	<font color="#FF0000">}</font>
+
+	cout <font color="#990000">&lt;&lt;</font> outputString <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font> <i><font color="#9A1900">//output our result</font></i>
+	<b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+
+<i><font color="#9A1900">//checks if an integer is a prime number, returns true if it's prime and false if it's composite</font></i>
+<font color="#009900">bool</font> <b><font color="#000000">isPrime</font></b><font color="#990000">(</font><font color="#009900">int</font> input<font color="#990000">)</font> <font color="#FF0000">{</font>
+	<i><font color="#9A1900">//i begins at 2 because 0 and 1 are factors of everything. i*i&lt;=input is used because any factor greater than the</font></i>
+	<i><font color="#9A1900">//square root of a number will be paired with a factor less than the square root. For example, the factors of 100</font></i>
+	<i><font color="#9A1900">//are 1, 2, 4, 5, 10, 20, 25, 50, 100. The square root of 100 is 10. Note that there are an odd number of factors</font></i>
+	<i><font color="#9A1900">// and that 10 is the centermost factor. Radiating out from the 10 in both directions, the pairs of factors multiply</font></i>
+	<i><font color="#9A1900">// to 100: 5*20, 4*25, 2*50, 1*100. For a number without an integer square root, the number of factors will be even,</font></i>
+	<i><font color="#9A1900">// and the non-integer square root would fall between the central two factors.</font></i>
+	
+	<i><font color="#9A1900">//0, 1, and negatives are not prime by definition</font></i>
+	<b><font color="#0000FF">if</font></b><font color="#990000">(</font>input <font color="#990000">&lt;</font> <font color="#993399">2</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+		<b><font color="#0000FF">return</font></b> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+	<font color="#FF0000">}</font>
+	
+	
+	<b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">2</font><font color="#990000">;</font> i<font color="#990000">*</font>i <font color="#990000">&lt;=</font> input<font color="#990000">;</font> i<font color="#990000">++)</font> <font color="#FF0000">{</font> 
+		<b><font color="#0000FF">if</font></b><font color="#990000">(</font>input <font color="#990000">%</font> i <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font> <font color="#FF0000">{</font> <i><font color="#9A1900">//If input can be divided by i without a remainder</font></i>
+			<b><font color="#0000FF">return</font></b> <b><font color="#0000FF">false</font></b><font color="#990000">;</font> <i><font color="#9A1900">//We found a factor of input, meaning it is not a prime.</font></i>
+		<font color="#FF0000">}</font>
+	<font color="#FF0000">}</font>
+	<b><font color="#0000FF">return</font></b> <b><font color="#0000FF">true</font></b><font color="#990000">;</font> <i><font color="#9A1900">//We iterated through every possible integer and failed to find a factor, meaning input is prime.</font></i>
+<font color="#FF0000">}</font>
+</tt></pre>

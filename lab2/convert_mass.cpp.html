@@ -1,0 +1,74 @@
+<!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><i><font color="#9A1900">/* Author: Basil Vetas</font></i>
+<i><font color="#9A1900"> * Date: January 14, 2015</font></i>
+<i><font color="#9A1900"> * Course: CS 3505</font></i>
+<i><font color="#9A1900"> * Version: 1.0</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * A command line application that converts kilograms to pounds for the user.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * To compile:  g++ -o convert_mass.o convert_mass.cpp</font></i>
+<i><font color="#9A1900"> * To run:      ./convert_mass.o </font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iostream&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iomanip&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;sstream&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;cmath&gt;</font>
+<b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;</font>
+
+<i><font color="#9A1900">// Forward declarartion of conversion function</font></i>
+<font color="#009900">double</font> <b><font color="#000000">convert_mass</font></b> <font color="#990000">(</font><font color="#009900">double</font> kilos<font color="#990000">);</font>
+
+<font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()</font>
+<font color="#FF0000">{</font>
+  <font color="#009900">double</font> kg<font color="#990000">,</font> lbs<font color="#990000">;</font>
+  <font color="#008080">string</font> input<font color="#990000">;</font>
+  <i><font color="#9A1900">// prompt user to enter a weight in kilograms</font></i>
+  cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Please enter a weight in Kilograms: "</font><font color="#990000">;</font>
+  <i><font color="#9A1900">// receive the line entered from user </font></i>
+  <b><font color="#000000">getline</font></b><font color="#990000">(</font>cin<font color="#990000">,</font> input<font color="#990000">);</font>  
+
+  <i><font color="#9A1900">// check that the input is not null (and thus is a valid number)</font></i>
+  <b><font color="#0000FF">if</font></b><font color="#990000">(</font>cin<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">()</font> <font color="#990000">==</font> <b><font color="#0000FF">true</font></b><font color="#990000">)</font>
+    <font color="#FF0000">{</font>    
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"The value you have entered is invalid. Please enter a valid weight in kg and try again."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      <b><font color="#0000FF">return</font></b> <font color="#993399">1</font><font color="#990000">;</font> 
+    <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">// pass it to a stringstream</font></i>
+  <font color="#008080">istringstream</font> <b><font color="#000000">in</font></b><font color="#990000">(</font>input<font color="#990000">);</font>
+  
+  <i><font color="#9A1900">// get the integer from stream</font></i>
+  <i><font color="#9A1900">// and make sure it is the end of line</font></i>
+  <b><font color="#0000FF">if</font></b><font color="#990000">((</font>in <font color="#990000">&gt;&gt;</font> kg<font color="#990000">)</font> <font color="#990000">&amp;&amp;</font> in<font color="#990000">.</font><b><font color="#000000">eof</font></b><font color="#990000">())</font>
+    <font color="#FF0000">{</font>
+      lbs <font color="#990000">=</font> <b><font color="#000000">convert_mass</font></b><font color="#990000">(</font>kg<font color="#990000">);</font>
+      <i><font color="#9A1900">// output the result for the user                                                                                       </font></i>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"You entered "</font> <font color="#990000">&lt;&lt;</font> kg <font color="#990000">&lt;&lt;</font> <b><font color="#000000">setprecision</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">)</font> <font color="#990000">&lt;&lt;</font> fixed <font color="#990000">&lt;&lt;</font> <font color="#FF0000">" kg, which is equal to "</font> <font color="#990000">&lt;&lt;</font> lbs <font color="#990000">&lt;&lt;</font> <font color="#FF0000">" lbs."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>    
+    <font color="#FF0000">}</font>
+  <b><font color="#0000FF">else</font></b>  <i><font color="#9A1900">// if we couldn't pass stream to int, or it wasn't the end of the line then it is invalid</font></i>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"The value you have entered is invalid. Please enter a valid weight in kg and try again."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      <b><font color="#0000FF">return</font></b> <font color="#993399">1</font><font color="#990000">;</font> 
+    <font color="#FF0000">}</font>
+
+  <b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+<i><font color="#9A1900">/* Converts a kilogram weight to a pounds weight.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * Parameters:</font></i>
+<i><font color="#9A1900"> *  double kilos - a weight in kg</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * Return value:</font></i>
+<i><font color="#9A1900"> *  the equivalent weight in pounds (lbs)</font></i>
+<i><font color="#9A1900"> */</font></i>
+<font color="#009900">double</font> <b><font color="#000000">convert_mass</font></b> <font color="#990000">(</font><font color="#009900">double</font> kilos<font color="#990000">)</font>
+<font color="#FF0000">{</font>
+  <b><font color="#0000FF">return</font></b> kilos <font color="#990000">*</font> <font color="#993399">2.2046</font><font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+
+</tt></pre>

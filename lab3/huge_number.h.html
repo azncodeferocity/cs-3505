@@ -1,0 +1,111 @@
+<!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><i><font color="#9A1900">/* Jonathan Kraiss</font></i>
+<i><font color="#9A1900"> * U0734700</font></i>
+<i><font color="#9A1900"> * CS 3505</font></i>
+<i><font color="#9A1900"> * 22 January 2015</font></i>
+<i><font color="#9A1900"> */</font></i>
+
+<b><font color="#000080">#include</font></b><font color="#FF0000">&lt;string&gt;</font>
+
+<i><font color="#9A1900">/*</font></i>
+<i><font color="#9A1900"> * A huge number class is used to represent non-negative integer values</font></i>
+<i><font color="#9A1900"> * which would exceed the machine's integer capacity. Huge numbers have </font></i>
+<i><font color="#9A1900"> * capabilities for addition, subtraction, multiplication, division, and</font></i>
+<i><font color="#9A1900"> * modulo.</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">class</font></b> <font color="#008080">huge_number</font>
+<font color="#FF0000">{</font>
+<b><font color="#0000FF">public</font></b><font color="#990000">:</font>
+  <i><font color="#9A1900">// Constructor</font></i>
+  <i><font color="#9A1900">// The integer value this class represents  must be provided as a string.</font></i>
+  <b><font color="#000000">huge_number</font></b><font color="#990000">(</font>std<font color="#990000">::</font><font color="#008080">string</font> _value<font color="#990000">);</font> 
+
+  <i><font color="#9A1900">// Copy constructor</font></i>
+  <b><font color="#000000">huge_number</font></b><font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number<font color="#990000">&amp;</font> other<font color="#990000">);</font>
+
+  <i><font color="#9A1900">// Destructor</font></i>
+  <font color="#990000">~</font><b><font color="#000000">huge_number</font></b><font color="#990000">();</font> 
+
+  <i><font color="#9A1900">// Getter method</font></i>
+  std<font color="#990000">::</font><font color="#008080">string</font> <b><font color="#000000">get_value</font></b><font color="#990000">();</font>
+
+  <i><font color="#9A1900">/* Assignment overload to allow multiple assignments</font></i>
+<i><font color="#9A1900">   * to be carried out in a single statement.</font></i>
+<i><font color="#9A1900">   */</font></i>
+  huge_number<font color="#990000">&amp;</font> <b><font color="#0000FF">operator</font></b><font color="#990000">=</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">);</font>
+
+  <i><font color="#9A1900">/* Huge numbers may be added together. </font></i>
+<i><font color="#9A1900">  * The result of the addition of two huge numbers is a huge number.</font></i>
+<i><font color="#9A1900">  * The + operator will use this method's functionality when called upon two huge_number objects.</font></i>
+<i><font color="#9A1900">  */</font></i>
+  <font color="#008080">huge_number</font> <b><font color="#0000FF">operator</font></b><font color="#990000">+</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number<font color="#990000">&amp;</font> rhs<font color="#990000">);</font>
+
+ <i><font color="#9A1900">/* Multiplies two huge_number objects together and returns a huge_number as a result.</font></i>
+<i><font color="#9A1900"> */</font></i>
+  <font color="#008080">huge_number</font> <b><font color="#0000FF">operator</font></b><font color="#990000">*</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number<font color="#990000">&amp;</font> rhs<font color="#990000">);</font>
+
+  <i><font color="#9A1900">/* Subtracts two huge_number objects and returns a huge_number as a result.</font></i>
+<i><font color="#9A1900">   * If the result of the subtraction would yield a negative number, a 0 is returned instead.</font></i>
+<i><font color="#9A1900">   */</font></i> 
+  <font color="#008080">huge_number</font> <b><font color="#0000FF">operator</font></b><font color="#990000">-</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number<font color="#990000">&amp;</font> rhs<font color="#990000">);</font>
+
+  <i><font color="#9A1900">/* Divides two huge_number objects and returns a huge_number as a result.</font></i>
+<i><font color="#9A1900">   * This huge_number object's value is divided by the argument's value. </font></i>
+<i><font color="#9A1900">   * There is no account for the remainder in this division function. </font></i>
+<i><font color="#9A1900">   */</font></i> 
+  <font color="#008080">huge_number</font> <b><font color="#0000FF">operator</font></b><font color="#990000">/</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number<font color="#990000">&amp;</font> rhs<font color="#990000">);</font>
+
+  <i><font color="#9A1900">/* Performs the modulus of two huge_number objects and returns a huge_number as a result.</font></i>
+<i><font color="#9A1900">   * This huge_number object's value is modded by the argument's value. </font></i>
+<i><font color="#9A1900">   */</font></i> 
+  <font color="#008080">huge_number</font> <b><font color="#0000FF">operator</font></b><font color="#990000">%</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number<font color="#990000">&amp;</font> rhs<font color="#990000">);</font>
+
+<b><font color="#0000FF">private</font></b><font color="#990000">:</font>
+
+   <i><font color="#9A1900">/* Helper method for the modulus of huge_numbers.</font></i>
+<i><font color="#9A1900">   * Performs the modulus of two non-negative integers represented as strings</font></i>
+<i><font color="#9A1900">   * and returns the result as a string.</font></i>
+<i><font color="#9A1900">   */</font></i>
+  std<font color="#990000">::</font> <font color="#008080">string</font> <b><font color="#000000">mod</font></b> <font color="#990000">(</font>std<font color="#990000">::</font><font color="#008080">string</font> numer<font color="#990000">,</font> std<font color="#990000">::</font><font color="#008080">string</font> denom<font color="#990000">);</font>
+
+  <i><font color="#9A1900">/* Helper method for the addition of huge_numbers.</font></i>
+<i><font color="#9A1900">   * Performs the addition of two non-negative integers represented as strings</font></i>
+<i><font color="#9A1900">   * and returns the result as a string.</font></i>
+<i><font color="#9A1900">   */</font></i>
+  std<font color="#990000">::</font> <font color="#008080">string</font> <b><font color="#000000">add</font></b> <font color="#990000">(</font>std<font color="#990000">::</font><font color="#008080">string</font> left<font color="#990000">,</font> std<font color="#990000">::</font><font color="#008080">string</font> right<font color="#990000">);</font>
+
+  <i><font color="#9A1900">/* Helper method for the multiplication of huge_numbers.</font></i>
+<i><font color="#9A1900">   * Performs the addition of two non-negative integers represented as strings</font></i>
+<i><font color="#9A1900">   * and returns the result as a string.</font></i>
+<i><font color="#9A1900">   */</font></i>
+  std<font color="#990000">::</font> <font color="#008080">string</font> <b><font color="#000000">multiply</font></b><font color="#990000">(</font>std<font color="#990000">::</font><font color="#008080">string</font> left<font color="#990000">,</font> std<font color="#990000">::</font><font color="#008080">string</font> right<font color="#990000">);</font>
+
+  <i><font color="#9A1900">/* Helper method for the division of huge_numbers.</font></i>
+<i><font color="#9A1900">   * Divides the left argument by the right and </font></i>
+<i><font color="#9A1900">   * and returns the result as a string.</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * The arguments are string representations of non-negative integers. Ex: "1025".</font></i>
+<i><font color="#9A1900">   */</font></i>
+  std<font color="#990000">::</font> <font color="#008080">string</font> <b><font color="#000000">divide</font></b><font color="#990000">(</font>std<font color="#990000">::</font><font color="#008080">string</font> left<font color="#990000">,</font> std<font color="#990000">::</font><font color="#008080">string</font> right<font color="#990000">);</font>
+
+  <i><font color="#9A1900">/* Helper method for the subtraction of huge_numbers.</font></i>
+<i><font color="#9A1900">   * Performs the subtraction of two non-negative integers represented as strings</font></i>
+<i><font color="#9A1900">   * and returns the result as a string.</font></i>
+<i><font color="#9A1900">   */</font></i>
+  std<font color="#990000">::</font> <font color="#008080">string</font> <b><font color="#000000">subtract</font></b><font color="#990000">(</font>std<font color="#990000">::</font><font color="#008080">string</font> top<font color="#990000">,</font> std<font color="#990000">::</font><font color="#008080">string</font> bot<font color="#990000">);</font>
+
+  <i><font color="#9A1900">/* Helper method to compare two huge_numbers represented as strings.</font></i>
+<i><font color="#9A1900">   * If the left hand side string integer value is larger than the right hand side string integer value,</font></i>
+<i><font color="#9A1900">   * this function returns true. Else, it returns false.</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * A string integer is a string like "10235". The string integer values must be non-negative. </font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#009900">bool</font> <b><font color="#000000">is_bigger</font></b><font color="#990000">(</font>std<font color="#990000">::</font><font color="#008080">string</font> first<font color="#990000">,</font> std<font color="#990000">::</font><font color="#008080">string</font> second<font color="#990000">);</font>
+  <i><font color="#9A1900">// String representation of the huge number.</font></i>
+  std<font color="#990000">::</font><font color="#008080">string</font> value<font color="#990000">;</font>
+
+<font color="#FF0000">}</font><font color="#990000">;</font>
+</tt></pre>

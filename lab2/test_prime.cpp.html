@@ -1,0 +1,101 @@
+<!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><i><font color="#9A1900">/* Author: Basil Vetas</font></i>
+<i><font color="#9A1900"> * Date: January 14, 2015</font></i>
+<i><font color="#9A1900"> * Course: CS 3505</font></i>
+<i><font color="#9A1900"> * Version: 1.0</font></i>
+<i><font color="#9A1900"> * </font></i>
+<i><font color="#9A1900"> * A command-line application that determines if an integer is prime</font></i>
+<i><font color="#9A1900"> * The integer is passed in as a single command-line parameter</font></i>
+<i><font color="#9A1900"> * </font></i>
+<i><font color="#9A1900"> * To compile:  g++ -o test_prime.o test_prime.cpp</font></i>
+<i><font color="#9A1900"> * To run:      ./test_prime.o n</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iostream&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;cmath&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;sstream&gt;</font>
+<b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;</font>
+
+<i><font color="#9A1900">// Forward declarartion of prime check function</font></i>
+<font color="#009900">bool</font> <b><font color="#000000">is_prime</font></b><font color="#990000">(</font><font color="#009900">int</font> n<font color="#990000">);</font>
+
+<font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#009900">int</font> argc<font color="#990000">,</font> <font color="#009900">char</font><font color="#990000">*</font> argv<font color="#990000">[])</font>
+<font color="#FF0000">{</font>
+
+  <i><font color="#9A1900">// if there are the wrong number of arguments, return error message</font></i>
+  <b><font color="#0000FF">if</font></b><font color="#990000">(</font>argc <font color="#990000">&lt;</font> <font color="#993399">2</font><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"You have entered too few parameters. Please enter exactly one integer as a parameter."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      <b><font color="#0000FF">return</font></b> <font color="#993399">1</font><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+  <b><font color="#0000FF">else</font></b> <b><font color="#0000FF">if</font></b><font color="#990000">(</font>argc <font color="#990000">&gt;</font> <font color="#993399">2</font><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"You have entered too many parameters. Please enter exactly one integer as a parameter."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      <b><font color="#0000FF">return</font></b> <font color="#993399">1</font><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+  <b><font color="#0000FF">else</font></b>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// pass argument to a string stream</font></i>
+      <font color="#008080">istringstream</font> <b><font color="#000000">in</font></b><font color="#990000">(</font>argv<font color="#990000">[</font><font color="#993399">1</font><font color="#990000">]);</font>
+      <font color="#009900">int</font> value<font color="#990000">;</font>
+
+      <i><font color="#9A1900">// if we can pass the string stream to an int</font></i>
+      <i><font color="#9A1900">// and it is the end of the string stream</font></i>
+      <i><font color="#9A1900">// then it is a valid integer to evaluate if prime</font></i>
+      <b><font color="#0000FF">if</font></b><font color="#990000">((</font>in <font color="#990000">&gt;&gt;</font> value<font color="#990000">)</font> <font color="#990000">&amp;&amp;</font> in<font color="#990000">.</font><b><font color="#000000">eof</font></b><font color="#990000">())</font>
+      <font color="#FF0000">{</font>
+       <b><font color="#0000FF">if</font></b><font color="#990000">(</font><b><font color="#000000">is_prime</font></b><font color="#990000">(</font>value<font color="#990000">))</font>
+	 cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"prime"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>      
+       <b><font color="#0000FF">else</font></b>
+	 cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"composite"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font> 
+      <font color="#FF0000">}</font>
+      <b><font color="#0000FF">else</font></b>
+	cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"composite"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+  <b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+<i><font color="#9A1900">/* Determines if the integer parameter is a prime number </font></i>
+<i><font color="#9A1900"> * </font></i>
+<i><font color="#9A1900"> * Parameters:</font></i>
+<i><font color="#9A1900"> *   int n - the integer to be checked</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * Return value:</font></i>
+<i><font color="#9A1900"> *   true if the integer is prime, false otherwise</font></i>
+<i><font color="#9A1900"> */</font></i>
+<font color="#009900">bool</font> <b><font color="#000000">is_prime</font></b> <font color="#990000">(</font><font color="#009900">int</font> n<font color="#990000">)</font>
+<font color="#FF0000">{</font>
+  <i><font color="#9A1900">// base cases we know are prime</font></i>
+  <b><font color="#0000FF">if</font></b><font color="#990000">((</font>n <font color="#990000">==</font> <font color="#993399">1</font><font color="#990000">)</font> <font color="#990000">||</font> <font color="#990000">(</font>n <font color="#990000">==</font> <font color="#993399">2</font><font color="#990000">))</font>
+    <b><font color="#0000FF">return</font></b> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+
+  <i><font color="#9A1900">// if n/2 has no remainder then it is even, and thus composite</font></i>
+  <b><font color="#0000FF">if</font></b><font color="#990000">((</font>n <font color="#990000">%</font> <font color="#993399">2</font><font color="#990000">)</font> <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font>
+    <b><font color="#0000FF">return</font></b> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+
+  <i><font color="#9A1900">// otherwise, n is odd, so we need to check if n is dividible</font></i>
+  <i><font color="#9A1900">// by any prime factor between 3 and square root of n</font></i>
+
+  <i><font color="#9A1900">// get square root, round up with ceiling function</font></i>
+  <font color="#009900">int</font> root <font color="#990000">=</font> <font color="#990000">(</font><font color="#009900">int</font><font color="#990000">)</font> <b><font color="#000000">ceil</font></b><font color="#990000">(</font><b><font color="#000000">sqrt</font></b><font color="#990000">(</font>n<font color="#990000">));</font> 
+
+  <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">3</font><font color="#990000">;</font> i <font color="#990000">&lt;=</font> root<font color="#990000">;</font> i<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// recursive optimization, only divide by prime factors</font></i>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(</font><b><font color="#000000">is_prime</font></b><font color="#990000">(</font>i<font color="#990000">))</font>
+  <font color="#FF0000">{</font>
+    <i><font color="#9A1900">// if any n/i has remainder of 0, then it is composite</font></i>
+    <b><font color="#0000FF">if</font></b><font color="#990000">((</font>n <font color="#990000">%</font> i<font color="#990000">)</font> <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font>
+    <b><font color="#0000FF">return</font></b> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+  <font color="#FF0000">}</font>    
+    <font color="#FF0000">}</font>
+  
+  <i><font color="#9A1900">// otherwise n must be prime</font></i>
+  <b><font color="#0000FF">return</font></b> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+
+</tt></pre>

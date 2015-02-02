@@ -1,0 +1,43 @@
+<!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><i><font color="#9A1900">/*</font></i>
+<i><font color="#9A1900">  Name: test_prime.cpp</font></i>
+<i><font color="#9A1900">  Author: Candace Wilson</font></i>
+<i><font color="#9A1900">  Last Modified: 01/15/15</font></i>
+<i><font color="#9A1900">  Version: 1.0</font></i>
+<i><font color="#9A1900">*/</font></i>
+
+<b><font color="#000080">#include</font></b><font color="#FF0000">&lt;iostream&gt;</font>
+<b><font color="#000080">#include</font></b><font color="#FF0000">&lt;algorithm&gt;</font>
+<b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;</font>
+
+<font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#009900">int</font> argc<font color="#990000">,</font> <font color="#009900">char</font><font color="#990000">*</font> argv<font color="#990000">[])</font><font color="#FF0000">{</font>
+
+  <font color="#009900">int</font> notPrime<font color="#990000">;</font> <i><font color="#9A1900">// Counter to keep track of how many numbers that can divide evenly into the argument</font></i>
+  <font color="#009900">int</font> numOfArgs <font color="#990000">=</font> argc <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">;</font>   <i><font color="#9A1900">// Number of arguments passed in (1 is subtracted since an empty space is always added to the end of an argument)</font></i>
+  <font color="#008080">string</font> arg <font color="#990000">=</font> argv<font color="#990000">[</font><font color="#993399">1</font><font color="#990000">];</font> <i><font color="#9A1900">// Retrieve user's argument from the command line and set it as a string</font></i>
+  <font color="#009900">int</font> argument <font color="#990000">=</font> <b><font color="#000000">atoi</font></b><font color="#990000">(</font>arg<font color="#990000">.</font><b><font color="#000000">c_str</font></b><font color="#990000">());</font> <i><font color="#9A1900">// Convert the string to an integer</font></i>
+
+  <i><font color="#9A1900">// Close the program if there is more than one argment</font></i>
+  <b><font color="#0000FF">if</font></b><font color="#990000">(</font>numOfArgs <font color="#990000">&gt;</font> <font color="#993399">1</font><font color="#990000">)</font>
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Invalid number of arguments. There should only be one argument."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">2</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> argument<font color="#990000">;</font> i<font color="#990000">++)</font><font color="#FF0000">{</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(</font>argument <font color="#990000">%</font> i <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font> <i><font color="#9A1900">// If the argument has a remainder of 0 after being divided by the numbers before it, it is not prime.</font></i>
+	notPrime<font color="#990000">++;</font> <i><font color="#9A1900">// Increase counter for numbers that can multiply into the argument</font></i>
+    <font color="#FF0000">}</font>
+  
+    <i><font color="#9A1900">/* Determine if argument is prime or not. The number 2 is also a parameter in this check because a number is </font></i>
+<i><font color="#9A1900">       known to be prime if the only numbers it can be divided by evenly are 1 or itself. Because the loop previously seen</font></i>
+<i><font color="#9A1900">       starts at 2 in order to better determine if the argument is prime, it completely skips the number 2, which is what </font></i>
+<i><font color="#9A1900">       the user could have put in as an argument. */</font></i>
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>notPrime <font color="#990000">==</font> <font color="#993399">0</font> <font color="#990000">||</font> argument <font color="#990000">==</font> <font color="#993399">2</font><font color="#990000">)</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"prime</font><font color="#CC33CC">\n</font><font color="#FF0000">"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+    <b><font color="#0000FF">else</font></b>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"composite</font><font color="#CC33CC">\n</font><font color="#FF0000">"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  <font color="#FF0000">}</font>
+  <b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#FF0000">}</font>
+</tt></pre>

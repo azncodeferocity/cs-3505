@@ -1,0 +1,296 @@
+<!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><i><font color="#9A1900">/*</font></i>
+<i><font color="#9A1900">Jeffrey Souza</font></i>
+<i><font color="#9A1900">Huge Number</font></i>
+<i><font color="#9A1900">1/23/2015</font></i>
+
+<i><font color="#9A1900">division and modulo unfinished :(</font></i>
+<i><font color="#9A1900">*/</font></i>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;string&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iostream&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">"huge_number.h"</font>
+
+huge_number<font color="#990000">::</font><b><font color="#000000">huge_number</font></b> <font color="#990000">(</font>std<font color="#990000">::</font><font color="#008080">string</font> _numString<font color="#990000">)</font>
+<font color="#FF0000">{</font>
+  numString <font color="#990000">=</font> _numString<font color="#990000">;</font> 
+<font color="#FF0000">}</font>
+
+huge_number<font color="#990000">::~</font><b><font color="#000000">huge_number</font></b> <font color="#990000">()</font>
+<font color="#FF0000">{</font>
+	<i><font color="#9A1900">//deconstructor</font></i>
+<font color="#FF0000">}</font>
+
+
+<font color="#008080">huge_number</font> huge_number<font color="#990000">::</font><b><font color="#0000FF">operator</font></b><font color="#990000">+</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">)</font> <b><font color="#0000FF">const</font></b>
+<font color="#FF0000">{</font>
+  <i><font color="#9A1900">// add operation from big_number_example.cpp from class</font></i>
+  std<font color="#990000">::</font><font color="#008080">string</font> right <font color="#990000">=</font> numString<font color="#990000">;</font>
+  std<font color="#990000">::</font><font color="#008080">string</font> left <font color="#990000">=</font> rhs<font color="#990000">.</font>numString<font color="#990000">;</font>
+  <i><font color="#9A1900">// Build up a string to contain the result.</font></i>
+  
+  std<font color="#990000">::</font><font color="#008080">string</font> result <font color="#990000">=</font> <font color="#FF0000">""</font><font color="#990000">;</font>
+
+  result <font color="#990000">=</font> <b><font color="#000000">add</font></b><font color="#990000">(</font>left<font color="#990000">,</font> right<font color="#990000">);</font>
+  
+  <font color="#008080">huge_number</font> done <font color="#990000">=</font> <b><font color="#000000">huge_number</font></b><font color="#990000">(</font>result<font color="#990000">);</font>
+
+  <b><font color="#0000FF">return</font></b> done<font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+<font color="#008080">huge_number</font> huge_number<font color="#990000">::</font><b><font color="#0000FF">operator</font></b><font color="#990000">-</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">)</font> <b><font color="#0000FF">const</font></b>
+<font color="#FF0000">{</font>
+  <i><font color="#9A1900">// Build up a string to contain the result.</font></i>
+  
+  std<font color="#990000">::</font><font color="#008080">string</font> result <font color="#990000">=</font> <font color="#FF0000">""</font><font color="#990000">;</font>
+  std<font color="#990000">::</font><font color="#008080">string</font> left <font color="#990000">=</font> numString<font color="#990000">;</font>
+  std<font color="#990000">::</font><font color="#008080">string</font> right <font color="#990000">=</font> rhs<font color="#990000">.</font>numString<font color="#990000">;</font>
+  <i><font color="#9A1900">// Work right to left.</font></i>
+  
+  <font color="#009900">int</font> left_length <font color="#990000">=</font> left<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">();</font>
+  <font color="#009900">int</font> right_length <font color="#990000">=</font> right<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">();</font>
+  
+  <b><font color="#0000FF">if</font></b><font color="#990000">(</font>left_length <font color="#990000">-</font> right_length <font color="#990000">&gt;</font> <font color="#993399">0</font><font color="#990000">)</font>
+  <font color="#FF0000">{</font>
+      right<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> left_length <font color="#990000">-</font> right_length<font color="#990000">,</font> <font color="#FF0000">'0'</font><font color="#990000">);</font>
+  <font color="#FF0000">}</font>
+  <b><font color="#0000FF">else</font></b> <b><font color="#0000FF">if</font></b><font color="#990000">(</font>left_length <font color="#990000">-</font> right_length <font color="#990000">&lt;</font> <font color="#993399">0</font><font color="#990000">)</font>
+  <font color="#FF0000">{</font>
+      left<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> right_length <font color="#990000">-</font> left_length<font color="#990000">,</font> <font color="#FF0000">'0'</font><font color="#990000">);</font>
+  <font color="#FF0000">}</font>
+
+  <font color="#009900">int</font> left_pos  <font color="#990000">=</font> left<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font>  <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">;</font>
+  <font color="#009900">int</font> right_pos <font color="#990000">=</font> right<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">;</font>
+  <font color="#009900">int</font> sum <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+  <font color="#009900">int</font> carry <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+
+  <i><font color="#9A1900">// Loop, adding columns until no more digits remain.</font></i>
+
+  <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>left_pos <font color="#990000">&gt;=</font> <font color="#993399">0</font><font color="#990000">)</font>
+  <font color="#FF0000">{</font>
+    <i><font color="#9A1900">// Get the digit from each string, or 0 if none.</font></i>
+
+    <font color="#009900">int</font> left_digit  <font color="#990000">=</font> left_pos  <font color="#990000">&gt;=</font> <font color="#993399">0</font> <font color="#990000">?</font> left<font color="#990000">[</font>left_pos<font color="#990000">--]</font>   <font color="#990000">-</font> <font color="#FF0000">'0'</font> <font color="#990000">:</font> <font color="#993399">0</font><font color="#990000">;</font>
+    <font color="#009900">int</font> right_digit <font color="#990000">=</font> right_pos <font color="#990000">&gt;=</font> <font color="#993399">0</font> <font color="#990000">?</font> right<font color="#990000">[</font>right_pos<font color="#990000">--]</font> <font color="#990000">-</font> <font color="#FF0000">'0'</font> <font color="#990000">:</font> <font color="#993399">0</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// Calcuate the digits.</font></i>
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>left_digit <font color="#990000">-</font> right_digit <font color="#990000">-</font> carry <font color="#990000">&gt;=</font> <font color="#993399">0</font><font color="#990000">)</font> <i><font color="#9A1900">// if we dont have to borrow</font></i>
+    <font color="#FF0000">{</font>
+        sum <font color="#990000">=</font> left_digit <font color="#990000">-</font> right_digit <font color="#990000">-</font> carry <font color="#990000">+</font> <font color="#FF0000">'0'</font><font color="#990000">;</font>
+        carry <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+    <b><font color="#0000FF">else</font></b> <i><font color="#9A1900">// if we have to borrow</font></i>
+    <font color="#FF0000">{</font>
+        sum <font color="#990000">=</font> <font color="#993399">10</font> <font color="#990000">+</font> left_digit <font color="#990000">-</font> right_digit <font color="#990000">-</font> carry <font color="#990000">+</font> <font color="#FF0000">'0'</font><font color="#990000">;</font>  <i><font color="#9A1900">// borrow the 10</font></i>
+        carry <font color="#990000">=</font> <font color="#993399">1</font><font color="#990000">;</font>											<i><font color="#9A1900">// set carry for next iteration or indicate negative</font></i>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// Put the sum into the new string (at the left side)</font></i>
+
+    result<font color="#990000">.</font><b><font color="#000000">insert</font></b> <font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#993399">1</font><font color="#990000">,</font> <b><font color="#0000FF">static_cast</font></b><font color="#990000">&lt;</font><font color="#009900">char</font><font color="#990000">&gt;(</font>sum<font color="#990000">)</font> <font color="#990000">);</font>    
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">// Strip out any leading 0's from our result.  (Might not be needed)</font></i>
+
+  <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>result<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">&gt;</font> <font color="#993399">0</font> <font color="#990000">&amp;&amp;</font> result<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]</font> <font color="#990000">==</font> <font color="#FF0000">'0'</font><font color="#990000">)</font>
+    result<font color="#990000">.</font><b><font color="#000000">erase</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#993399">1</font><font color="#990000">);</font>
+
+  <i><font color="#9A1900">// If the string is empty, it's a 0.  Put one back.</font></i>
+
+  <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>result<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"0"</font><font color="#990000">;</font>
+    
+  <b><font color="#0000FF">if</font></b><font color="#990000">(</font>carry <font color="#990000">==</font> <font color="#993399">1</font><font color="#990000">)</font> <i><font color="#9A1900">// if negative return 0</font></i>
+    result <font color="#990000">=</font> <font color="#FF0000">"0"</font><font color="#990000">;</font>
+  <b><font color="#0000FF">return</font></b> result<font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+<font color="#008080">huge_number</font> huge_number<font color="#990000">::</font><b><font color="#0000FF">operator</font></b><font color="#990000">*</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">)</font> <b><font color="#0000FF">const</font></b>
+<font color="#FF0000">{</font>
+  <i><font color="#9A1900">// multiplication operation from big_number_example.cpp from class</font></i>
+  std<font color="#990000">::</font><font color="#008080">string</font> right <font color="#990000">=</font> numString<font color="#990000">;</font>
+  std<font color="#990000">::</font><font color="#008080">string</font> left <font color="#990000">=</font> rhs<font color="#990000">.</font>numString<font color="#990000">;</font>
+  
+  std<font color="#990000">::</font><font color="#008080">string</font> result <font color="#990000">=</font> <font color="#FF0000">"0"</font><font color="#990000">;</font>
+
+  <font color="#009900">int</font> right_pos <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+
+  <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>right_pos <font color="#990000">&lt;</font> right<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">())</font>
+  <font color="#FF0000">{</font>
+    result<font color="#990000">.</font><b><font color="#000000">append</font></b><font color="#990000">(</font><font color="#FF0000">"0"</font><font color="#990000">);</font>  <i><font color="#9A1900">// Multiply the product by 10.</font></i>
+
+    <font color="#009900">int</font> right_digit <font color="#990000">=</font> right<font color="#990000">[</font>right_pos<font color="#990000">++]</font> <font color="#990000">-</font> <font color="#FF0000">'0'</font><font color="#990000">;</font>
+
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> right_digit<font color="#990000">;</font> i<font color="#990000">++)</font>
+      result <font color="#990000">=</font> <b><font color="#000000">add</font></b><font color="#990000">(</font>result<font color="#990000">,</font> left<font color="#990000">);</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">// Strip out any leading 0's from our result.  (Might not be needed)</font></i>
+
+  <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>result<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">&gt;</font> <font color="#993399">0</font> <font color="#990000">&amp;&amp;</font> result<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]</font> <font color="#990000">==</font> <font color="#FF0000">'0'</font><font color="#990000">)</font>
+    result<font color="#990000">.</font><b><font color="#000000">erase</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#993399">1</font><font color="#990000">);</font>
+
+  <i><font color="#9A1900">// If the string is empty, it's a 0.  Put one back.</font></i>
+
+  <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>result<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"0"</font><font color="#990000">;</font>
+    
+  <font color="#008080">huge_number</font> sum <font color="#990000">=</font> <b><font color="#000000">huge_number</font></b><font color="#990000">(</font>result<font color="#990000">);</font>
+
+  <b><font color="#0000FF">return</font></b> sum<font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+<font color="#008080">huge_number</font> huge_number<font color="#990000">::</font><b><font color="#0000FF">operator</font></b><font color="#990000">/</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">)</font> <b><font color="#0000FF">const</font></b>
+<font color="#FF0000">{</font>
+  <i><font color="#9A1900">// Build up a string to contain the result.</font></i>
+
+  <i><font color="#9A1900">/*--------------------------------------------------------------------</font></i>
+
+<i><font color="#9A1900">		incomplete division algorithm gets stuck in inf loop :(</font></i>
+
+<i><font color="#9A1900">  ---------------------------------------------------------------------*/</font></i>
+  
+  std<font color="#990000">::</font><font color="#008080">string</font> result <font color="#990000">=</font> <font color="#FF0000">""</font><font color="#990000">;</font>
+  std<font color="#990000">::</font><font color="#008080">string</font> left <font color="#990000">=</font> numString<font color="#990000">;</font>
+  std<font color="#990000">::</font><font color="#008080">string</font> right <font color="#990000">=</font> rhs<font color="#990000">.</font>numString<font color="#990000">;</font>
+  <i><font color="#9A1900">// Work right to left.</font></i>
+  
+  <font color="#009900">int</font> left_length <font color="#990000">=</font> left<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">();</font>
+  <font color="#009900">int</font> right_length <font color="#990000">=</font> right<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">();</font>
+  
+  <b><font color="#0000FF">if</font></b><font color="#990000">(</font>left_length <font color="#990000">-</font> right_length <font color="#990000">&gt;</font> <font color="#993399">0</font><font color="#990000">)</font>
+  <font color="#FF0000">{</font>
+      right<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> left_length <font color="#990000">-</font> right_length<font color="#990000">,</font> <font color="#FF0000">'0'</font><font color="#990000">);</font>
+  <font color="#FF0000">}</font>
+  <b><font color="#0000FF">else</font></b> <b><font color="#0000FF">if</font></b><font color="#990000">(</font>left_length <font color="#990000">-</font> right_length <font color="#990000">&lt;</font> <font color="#993399">0</font><font color="#990000">)</font>
+  <font color="#FF0000">{</font>
+      left<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> right_length <font color="#990000">-</font> left_length<font color="#990000">,</font> <font color="#FF0000">'0'</font><font color="#990000">);</font>
+  <font color="#FF0000">}</font>
+
+  <font color="#009900">int</font> left_pos  <font color="#990000">=</font> left<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font>  <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">;</font>
+  <font color="#009900">int</font> right_pos <font color="#990000">=</font> right<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">;</font>
+  <font color="#009900">int</font> answer <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+  <font color="#009900">int</font> size <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+
+  <i><font color="#9A1900">// Loop, adding columns until no more digits remain.</font></i>
+
+  <i><font color="#9A1900">/*</font></i>
+<i><font color="#9A1900">  while (left_pos &lt;= left_length)</font></i>
+<i><font color="#9A1900">  {</font></i>
+<i><font color="#9A1900">    // Get the digit from each string, or 0 if none.</font></i>
+
+<i><font color="#9A1900">    int left_digit  = left_pos  &gt;= 0 ? left[left_pos--]   - '0' : 0;</font></i>
+<i><font color="#9A1900">    int right_digit = right_pos &gt;= 0 ? right[right_pos--] - '0' : 0;</font></i>
+
+<i><font color="#9A1900">    // Calcuate the diviosn of the digits.</font></i>
+<i><font color="#9A1900">    if(left_digit == 0)</font></i>
+<i><font color="#9A1900">    {</font></i>
+<i><font color="#9A1900">        answer = 0;</font></i>
+<i><font color="#9A1900">    }</font></i>
+<i><font color="#9A1900">    if(right_digit != 0)</font></i>
+<i><font color="#9A1900">    {</font></i>
+<i><font color="#9A1900">        while(left_digit &gt;= right_digit)</font></i>
+<i><font color="#9A1900">        {</font></i>
+<i><font color="#9A1900">            answer++;</font></i>
+<i><font color="#9A1900">            left_digit -= right_digit;</font></i>
+<i><font color="#9A1900">        }</font></i>
+<i><font color="#9A1900">    }</font></i>
+<i><font color="#9A1900">    else</font></i>
+<i><font color="#9A1900">    {</font></i>
+<i><font color="#9A1900">        left_pos++;</font></i>
+<i><font color="#9A1900">        size++;</font></i>
+<i><font color="#9A1900">    }</font></i>
+
+<i><font color="#9A1900">    // Put the sum into the new string (at the left side)</font></i>
+
+<i><font color="#9A1900">    result.insert (0, 1, static_cast&lt;char&gt;(answer) );</font></i>
+<i><font color="#9A1900">  </font></i>
+<i><font color="#9A1900">    std::cout &lt;&lt; "result: " &lt;&lt; result &lt;&lt; std::endl;</font></i>
+<i><font color="#9A1900">    */</font></i>
+    
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">// Strip out any leading 0's from our result.  (Might not be needed)</font></i>
+
+  <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>result<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">&gt;</font> <font color="#993399">0</font> <font color="#990000">&amp;&amp;</font> result<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]</font> <font color="#990000">==</font> <font color="#FF0000">'0'</font><font color="#990000">)</font>
+    result<font color="#990000">.</font><b><font color="#000000">erase</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#993399">1</font><font color="#990000">);</font>
+
+  <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>result<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"0"</font><font color="#990000">;</font>
+
+  result<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font>result<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()-</font><font color="#993399">1</font><font color="#990000">,</font> size<font color="#990000">,</font> <font color="#FF0000">'0'</font><font color="#990000">);</font>
+  <font color="#008080">huge_number</font> done <font color="#990000">=</font> <b><font color="#000000">huge_number</font></b><font color="#990000">(</font><font color="#FF0000">"Division not fully implemented"</font><font color="#990000">);</font>
+
+  <b><font color="#0000FF">return</font></b> done<font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+<font color="#008080">huge_number</font> huge_number<font color="#990000">::</font><b><font color="#0000FF">operator</font></b><font color="#990000">%</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">)</font> <b><font color="#0000FF">const</font></b>
+<font color="#FF0000">{</font>  
+  <font color="#008080">huge_number</font> done <font color="#990000">=</font> <b><font color="#000000">huge_number</font></b><font color="#990000">(</font><font color="#FF0000">"modulo not implemented"</font><font color="#990000">);</font>
+
+  <b><font color="#0000FF">return</font></b> done<font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+huge_number<font color="#990000">&amp;</font> huge_number<font color="#990000">::</font><b><font color="#0000FF">operator</font></b><font color="#990000">=</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">)</font>
+<font color="#FF0000">{</font>
+  numString <font color="#990000">=</font> rhs<font color="#990000">.</font>numString<font color="#990000">;</font>
+
+  <b><font color="#0000FF">return</font></b> <font color="#990000">*</font><b><font color="#0000FF">this</font></b><font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+std<font color="#990000">::</font><font color="#008080">string</font> huge_number<font color="#990000">::</font><b><font color="#000000">get_value</font></b> <font color="#990000">()</font>
+<font color="#FF0000">{</font>
+  <b><font color="#0000FF">return</font></b> numString<font color="#990000">;</font>
+<font color="#FF0000">}</font>
+
+<i><font color="#9A1900">// helper function for add from class example</font></i>
+
+std<font color="#990000">::</font><font color="#008080">string</font> huge_number<font color="#990000">::</font><b><font color="#000000">add</font></b> <font color="#990000">(</font>std<font color="#990000">::</font><font color="#008080">string</font> left<font color="#990000">,</font> std<font color="#990000">::</font><font color="#008080">string</font> right<font color="#990000">)</font> <b><font color="#0000FF">const</font></b>
+<font color="#FF0000">{</font>
+  <i><font color="#9A1900">// add operation from big_number_example.cpp from class</font></i>
+  <i><font color="#9A1900">// Build up a string to contain the result.</font></i>
+  
+  std<font color="#990000">::</font><font color="#008080">string</font> result <font color="#990000">=</font> <font color="#FF0000">""</font><font color="#990000">;</font>
+
+  <i><font color="#9A1900">// Work right to left.</font></i>
+
+  <font color="#009900">int</font> left_pos  <font color="#990000">=</font> left<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font>  <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">;</font>
+  <font color="#009900">int</font> right_pos <font color="#990000">=</font> right<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">;</font>
+
+  <font color="#009900">int</font> carry <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+
+  <i><font color="#9A1900">// Loop, adding columns until no more digits remain.</font></i>
+
+  <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>left_pos <font color="#990000">&gt;=</font> <font color="#993399">0</font> <font color="#990000">||</font> right_pos <font color="#990000">&gt;=</font> <font color="#993399">0</font> <font color="#990000">||</font> carry <font color="#990000">&gt;</font> <font color="#993399">0</font><font color="#990000">)</font>
+  <font color="#FF0000">{</font>
+    <i><font color="#9A1900">// Get the digit from each string, or 0 if none.</font></i>
+
+    <font color="#009900">int</font> left_digit  <font color="#990000">=</font> left_pos  <font color="#990000">&gt;=</font> <font color="#993399">0</font> <font color="#990000">?</font> left<font color="#990000">[</font>left_pos<font color="#990000">--]</font>   <font color="#990000">-</font> <font color="#FF0000">'0'</font> <font color="#990000">:</font> <font color="#993399">0</font><font color="#990000">;</font>
+    <font color="#009900">int</font> right_digit <font color="#990000">=</font> right_pos <font color="#990000">&gt;=</font> <font color="#993399">0</font> <font color="#990000">?</font> right<font color="#990000">[</font>right_pos<font color="#990000">--]</font> <font color="#990000">-</font> <font color="#FF0000">'0'</font> <font color="#990000">:</font> <font color="#993399">0</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// Calcuate the sum of the digits.</font></i>
+
+    <font color="#009900">int</font> sum <font color="#990000">=</font> left_digit <font color="#990000">+</font> right_digit <font color="#990000">+</font> carry<font color="#990000">;</font>
+    carry <font color="#990000">=</font> sum <font color="#990000">/</font> <font color="#993399">10</font><font color="#990000">;</font>
+    sum   <font color="#990000">=</font> sum <font color="#990000">%</font> <font color="#993399">10</font> <font color="#990000">+</font> <font color="#FF0000">'0'</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// Put the sum into the new string (at the left side)</font></i>
+
+    result<font color="#990000">.</font><b><font color="#000000">insert</font></b> <font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#993399">1</font><font color="#990000">,</font> <b><font color="#0000FF">static_cast</font></b><font color="#990000">&lt;</font><font color="#009900">char</font><font color="#990000">&gt;(</font>sum<font color="#990000">)</font> <font color="#990000">);</font>
+    
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">// Strip out any leading 0's from our result.  (Might not be needed)</font></i>
+
+  <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>result<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">&gt;</font> <font color="#993399">0</font> <font color="#990000">&amp;&amp;</font> result<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]</font> <font color="#990000">==</font> <font color="#FF0000">'0'</font><font color="#990000">)</font>
+    result<font color="#990000">.</font><b><font color="#000000">erase</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#993399">1</font><font color="#990000">);</font>
+
+  <i><font color="#9A1900">// If the string is empty, it's a 0.  Put one back.</font></i>
+
+  <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>result<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"0"</font><font color="#990000">;</font>
+  
+  <b><font color="#0000FF">return</font></b> result<font color="#990000">;</font>
+<font color="#FF0000">}</font></tt></pre>

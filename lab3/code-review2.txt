@@ -1,0 +1,32 @@
+
+
+
+Jonathan Kraiss
+
+Good algorithm, I like the use of padding the denominator with zeros to make the division work.  The algorithm does not 
+account for when the denominator is bigger than the numerator, but the algorithm still works by default by returning zero.
+A full algorithm description in the method header would be helpful, but it is otherwise well commented.  The code appears 
+very reusable and looks like it would work for any huge_number value. 
+
+---
+
+Jeff Souza
+
+The division algorithm was not quite finished, but the intended method made sense and was on the right track.  There were
+a few small errors that appeared to cause a problem -- Jeff intended to use the same padding method as Jonathan did, but was
+also padding the numerator which appeared to cause a problem.  Also, challenges seemed to arise when storing the huge_numbers 
+in an int character, which could have been possibly avoided using the subtraction method of division.  The code was not in a helper
+method, which may have helped with code reusability and organization, but otherwise the program was well commented and made sense as 
+a work in progress.
+
+--
+
+Basil Vetas
+
+One improvement would be to add comments to the header (.h) file in order for users to get an idea of how the algorithm works.  Otherwise
+my algorithm apparently looked pretty good. Although it is maybe a little confusing because it uses a number of helper methods (add, subtract, etc)
+within the division algorithm, but overall I was told the code looks pretty concise and efficient and looks like it should work for any huge_number.
+
+
+
+

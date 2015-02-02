@@ -1,0 +1,63 @@
+Code Review 1
+Basil Vetas
+1/21/2015
+CS 3505
+Lab #2
+
+For this code review we focused on code correctness, sustainability, reusibility, 
+and detecting problems with code/algorithms. The code we are reviewing is test_prime.cpp. 
+
+My partners for this assignment were Caius Worthen and Candace Wilson.
+
+Code Review: test_prime.cpp - Basil Vetas
+
+Some of the comments I received for my program included the following: 
+-I made effective use of commenting and my code was well documented
+-My code was well organized and structured so that it was reusable
+-In my is_prime algorithm, I made additional optimizations that may not
+be needed. I also used recursion to improve the algorithm, but the other 
+students had concerns that this could possibly cause stack overflow problems
+when evaluating large numbers
+-One optimization I used was to take the square root of the number in question, 
+which cause me to include <cmath>, however, I could have just squared the divisor 
+candidates and would not have had to include <cmath>
+-I used string streams to make sure only numbers would be parsed and evaluated from
+the command line, but there may be simpler ways to accomplish this
+-The code review helped me find a bug in my own code, previously, I did not account
+for negative numbers. But a simple change to an 'if' statement fixed the problem
+
+Code Review: test_prime.cpp - Caius Worthen
+
+Some comments we had for Caius on his program included the following:
+-We noticed that Caius's main method was structured very similar to my own, 
+namely, he performed checks if the argument could be parsed as a number, and if
+so, a helper method was called to check if prime. We all liked this architecture
+-Caius's was well structured and the code seemed reusable, and appeared to work correctly
+-In he check for valid number of arguments, he used 'return 0' but it may have been more
+appropriate to 'return 1' to indicate that the program didn't execute all the way
+-In his isPrime method, Caius used a for loop and squared the divisor, which was a bit more 
+simple than the algorithm I used. We were interested in comparing our two algorithms to see
+if there was a significant runtime difference between the two, because while his was a bit more 
+simple, mine made use of some extra optimizations
+-Caiuse made good use of commenting and the code was well documented, but I suggested that it may
+be helpful to use multi-line comments as class and method headers, for more clarity
+
+Code Review: test_prime.cpp - Candace Wilson
+
+Some comments we had for Candace on her program included the following:
+-Of the three samples, Candace's code was structured more differently than the other two programs
+-All of Candace's code was in the main method, and we suggested that it may be helpful to separate
+out the check for prime numbers into a helper method
+-Candace declared a number of member variables at the beginning of main, and one of them is assigned
+before a check is made for the number of command line arguments, this could result in a null assigned 
+varible if no command line arg was passed in
+-When the check is made for command line args, a '> 1' statement is used when it appears that a '!= 1'
+statement should be used, to account for the case when too few arguments are submitted
+-To check for primes, Candace chose to keep a variable counter for the number of factors that a given
+number has, which may be beneficial under some circumstances, but in this case was not necessary and
+a different method could have been used to eliminate the need for extra variable declarations
+-The 'return 0' may be being used in the wrong place, because even if the program does not execute
+properly the code will still return 0
+-Candace's code did not seem to account for negative numbers
+-Candace made good use of comments to explain the code and the code was concise which was good
+

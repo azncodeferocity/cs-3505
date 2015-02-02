@@ -1,0 +1,24 @@
+<!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#0000FF">class</font></b> <font color="#008080">huge_number</font>
+<font color="#FF0000">{</font>
+<b><font color="#0000FF">public</font></b><font color="#990000">:</font>
+  <b><font color="#000000">huge_number</font></b><font color="#990000">(</font>std<font color="#990000">::</font><font color="#008080">string</font> _numString<font color="#990000">);</font>  <i><font color="#9A1900">// Constructor</font></i>
+  <font color="#990000">~</font><b><font color="#000000">huge_number</font></b><font color="#990000">();</font> <i><font color="#9A1900">// destructor</font></i>
+
+  std<font color="#990000">::</font><font color="#008080">string</font> <b><font color="#000000">get_value</font></b><font color="#990000">();</font>
+
+  <font color="#008080">huge_number</font> <b><font color="#0000FF">operator</font></b><font color="#990000">+</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">)</font> <b><font color="#0000FF">const</font></b><font color="#990000">;</font>
+  <font color="#008080">huge_number</font> <b><font color="#0000FF">operator</font></b><font color="#990000">-</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">)</font> <b><font color="#0000FF">const</font></b><font color="#990000">;</font>
+  <font color="#008080">huge_number</font> <b><font color="#0000FF">operator</font></b><font color="#990000">*</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">)</font> <b><font color="#0000FF">const</font></b><font color="#990000">;</font>
+  <font color="#008080">huge_number</font> <b><font color="#0000FF">operator</font></b><font color="#990000">/</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">)</font> <b><font color="#0000FF">const</font></b><font color="#990000">;</font>
+  <font color="#008080">huge_number</font> <b><font color="#0000FF">operator</font></b><font color="#990000">%</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">)</font> <b><font color="#0000FF">const</font></b><font color="#990000">;</font>
+  huge_number<font color="#990000">&amp;</font> <b><font color="#0000FF">operator</font></b><font color="#990000">=</font> <font color="#990000">(</font><b><font color="#0000FF">const</font></b> huge_number <font color="#990000">&amp;</font> rhs<font color="#990000">);</font>
+  
+<b><font color="#0000FF">private</font></b><font color="#990000">:</font>
+  std<font color="#990000">::</font><font color="#008080">string</font> numString<font color="#990000">;</font>
+  std<font color="#990000">::</font><font color="#008080">string</font> <b><font color="#000000">add</font></b><font color="#990000">(</font>std<font color="#990000">::</font><font color="#008080">string</font> left<font color="#990000">,</font> std<font color="#990000">::</font><font color="#008080">string</font> right<font color="#990000">)</font> <b><font color="#0000FF">const</font></b><font color="#990000">;</font>
+<font color="#FF0000">}</font><font color="#990000">;</font>
+  </tt></pre>

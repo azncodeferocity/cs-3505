@@ -1,0 +1,1 @@
+This project contains my programming projects and lab work done for Computer Science 3505 at the University of Utah, Spring 2015.  Programs are written in C++.  Disclaimer: This work should not be used by other current U of U CS students - For current students viewing this work, please do not plagiarize, it will catch up with you on the exams and in future professional work.
