@@ -11,6 +11,7 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#include <string>
 
 namespace cs3505
 {
@@ -21,6 +22,7 @@ namespace cs3505
     inventory(); // public constructor
 
   private:
+    std::string warehouse_name; // name of the warehouse 
 
   };
 }

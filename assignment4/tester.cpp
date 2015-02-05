@@ -23,3 +23,8 @@
  // BOOST_FOREACH
  // BOOST_STRING_TRIM_HPP
  // BOOST_RANGE_ADAPTOR_MAP_HPP
+
+ int main()
+ {
+
+ }

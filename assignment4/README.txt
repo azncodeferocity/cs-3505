@@ -1,3 +1,4 @@
 Do we need a namespace?
-Downloading boost - what version?
+Do we need a default constructor (for food_item, for example)?
+
 
