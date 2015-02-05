@@ -12,6 +12,8 @@
 #define INVENTORY_H
 
 #include <string>
+#include <set>
+#include "food_item.h"
 
 namespace cs3505
 {
@@ -19,14 +21,14 @@ namespace cs3505
   class inventory
   {
   public:
-    inventory(); // public constructor
+    inventory(std::string name); // public constructor
+    void update_inventory();     // updates inventory each day
+    std::set<food_item> get_stocked_foods();    // getter for stocked foods set
 
   private:
     std::string warehouse_name; // name of the warehouse
-
+    std::set<food_item> stocked_foods; // set of foods at this warehouse
   };
 }
-
-
 
 #endif

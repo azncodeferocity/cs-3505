@@ -22,24 +22,27 @@ namespace cs3505
    * food item can be stored.
    */
   class food_item
-  {
-  private:
-    std::string UPC_code;    // Uniquely identifies a type of food item
-    std::string name;        // The name of this food item.
-    int days_to_expiration;  // How long a food item of this type can be stored, initialize to shelf life
-    //int remaining_life;    // How much longer this food item can be stored
-
-   public:
+  {   
+  public:
     food_item();           //Default constructor
-    food_item(std::string upc, int life, std::string n); // Constructor
+    food_item(std::string upc, int initial_life, std::string name); // Constructor
     food_item(const food_item & other); // Copy constructor
     ~food_item(); // Destructor
     
     //Updates this food items remaining life at the start of the next day.
     void update_shelf_life();
+    std::string get_food_name();  // getter for food name
+    std::string get_upc_code();   // getter for upc code
+    int get_remaining_days();     // getter for days until expiration
     
     //Assignment operator copies the data from rhs to this object.
-    food_item operator= (const food_item &rhs);
+    // food_item operator= (const food_item & rhs);
+
+  private:
+    std::string upc_code;    // Uniquely identifies a type of food item
+    std::string food_name;        // The name of this food item.
+    int days_to_expiration;  // How long a food item of this type can be stored, initialize to shelf life
+    //int remaining_life;    // How much longer this food item can be stored
   };
 }
 
