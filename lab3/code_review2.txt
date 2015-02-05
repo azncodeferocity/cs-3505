@@ -1,4 +1,8 @@
 
+Code review by Basil Vetas
+CS 3505
+Jan 28 2015
+
 
 
 Jonathan Kraiss
@@ -26,6 +30,9 @@ Basil Vetas
 One improvement would be to add comments to the header (.h) file in order for users to get an idea of how the algorithm works.  Otherwise
 my algorithm apparently looked pretty good. Although it is maybe a little confusing because it uses a number of helper methods (add, subtract, etc)
 within the division algorithm, but overall I was told the code looks pretty concise and efficient and looks like it should work for any huge_number.
+
+
+
 
 
 
