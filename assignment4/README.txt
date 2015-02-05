@@ -14,7 +14,7 @@ Do we need to override the = (assignment) operator (in food_item, for example)?
 
 
 
-
+Can I delete report.h? And if we use helper function just forward declare them?
 
 
 *********** PROGRAM NOTES ***********
