@@ -7,17 +7,18 @@
  *
  */
 
-#ifndef FOOD_ITEM_H
-#define FOOD_ITEM_H
+
+#ifndef REPORT_H
+#define REPORT_H
 
 
 namespace cs3505
 {
 
-  class food_item 
+  class report
   {
   public:
-    food_item(); // public constructor
+    report(); // public constructor
 
   private:
 

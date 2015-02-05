@@ -6,3 +6,25 @@
  * 
  *
  */
+
+
+#ifndef INVENTORY_H
+#define INVENTORY_H
+
+
+namespace cs3505
+{
+
+  class inventory
+  {
+  public:
+    inventory(); // public constructor
+
+  private:
+
+  };
+}
+
+
+
+#endif
