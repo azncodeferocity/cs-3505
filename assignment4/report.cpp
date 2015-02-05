@@ -9,6 +9,7 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <set>
 #include <map>
@@ -26,6 +27,9 @@ using namespace std;
  // BOOST_STRING_TRIM_HPP
  // BOOST_RANGE_ADAPTOR_MAP_HPP
 
+// Forward declarartion of helper functions
+void read_data_file(string filename);
+
  /*
   * This in the main entry point for the inventory analysis program.
   * It will print a report containing a list of unstocked products,
@@ -33,8 +37,24 @@ using namespace std;
   * stocked products, which exist in two or more warehouses.
   *
   */
- int main()
+ int main(int argc, char* argv[])
  {
+
+  // if there are the wrong number of arguments, return error message
+  if(argc < 2)
+    {
+      cout << "You have entered too few parameters. Please enter exactly one file name as a parameter." << endl;
+      return 1;
+    }
+  else if(argc > 2)
+    {
+      cout << "You have entered too many parameters. Please enter exactly one file name as a parameter." << endl;
+      return 1;
+    }
+  else
+    read_data_file(argv[1]);
+
+
   cout << "\n"; // single blank line
   cout << "Report by Basil Vetas and Lance Petersen" << endl;
   cout << "\n"; // single blank line
@@ -50,7 +70,7 @@ using namespace std;
   //cout << pizza.to_string() << endl;
   // test code
 
-  
+
 
   // --------- DO STUFF HERE --------- //
 
@@ -65,10 +85,26 @@ using namespace std;
 
   cout << "\n"; // single blank line
 
+  return 0;
  }
 
+/*
+ * Reads in the data file passed as a parameter
+ * 
+ *
+ */
+ void read_data_file(string filename)
+ {
+  string line; // stores current line
 
+  ifstream in(filename); // file stream object
 
+  // read in the data file and process each line
+  while(getline(in, line))
+  {
+    cout << line << endl;
+  }
+ }
 
 
 
