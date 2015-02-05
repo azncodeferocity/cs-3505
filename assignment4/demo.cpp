@@ -5,6 +5,8 @@
 #include <boost/foreach.hpp>
 #include <boost/range/adaptor/map.hpp>
 
+// demo from class
+
 using namespace std;
 
 typedef vector<int> YearList;
@@ -25,7 +27,7 @@ int main ()
   
 
   //for (vector<int>::iterator it = v.begin(); it != v.end(); ++it)
-  //  cout << *it << endl;
+  //  cout << *it << endl; 
 
 
   for (vector<int>::iterator it = v.begin(); it != v.end(); ++it)
