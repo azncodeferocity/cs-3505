@@ -19,7 +19,7 @@ namespace cs3505
   {
   public:
     report(); // public constructor
-
+    
   private:
 
   };
