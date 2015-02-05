@@ -17,6 +17,10 @@
 #include <boost/range/adaptor/map.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include "report.h"
+#include "inventory.h"
+#include "food_item.h"
+
+using namespace std;
 
  // BOOST_FOREACH
  // BOOST_STRING_TRIM_HPP
@@ -31,19 +35,27 @@
   */
  int main()
  {
-  std::cout << "\n"; // single blank line
-  std::cout << "Report by Basil Vetas and Lance Petersen" << std::endl;
-  std::cout << "\n"; // single blank line
-  std::cout << "Unstocked Products:" << std::endl;
+  cout << "\n"; // single blank line
+  cout << "Report by Basil Vetas and Lance Petersen" << endl;
+  cout << "\n"; // single blank line
+  cout << "Unstocked Products:" << endl;
   // determine which products do not exist in any warehouse and print below
   // don't print any other information, and no duplicate products, for example:
   // 0984713912 pizza
   // 0278374752 bagels
 
+
+  // test code
+  //cs3505::food_item::food_item pizza("0984713912", "pizza", 3);
+  //cout << pizza.to_string() << endl;
+  // test code
+
+  
+
   // --------- DO STUFF HERE --------- //
 
-  std::cout << "\n"; // single blank line
-  std::cout << "Well-Stocked Products:" << std::endl;
+  cout << "\n"; // single blank line
+  cout << "Well-Stocked Products:" << endl;
   // determine which products exist in multiple warehouses (positive quantities in at least two warehouses)
   // print out only the UPC and name, for example 
   // 0984712812 mushroom ice cream
@@ -51,7 +63,7 @@
 
   // --------- DO STUFF HERE --------- //
 
-  std::cout << "\n"; // single blank line
+  cout << "\n"; // single blank line
 
  }
 

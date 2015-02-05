@@ -28,7 +28,7 @@ namespace cs3505
    * Main constructor
    *
    */
-  food_item::food_item(std::string upc, int initial_life, std::string name)
+  food_item::food_item(std::string upc, std::string name, int initial_life)
   {
     // initialize private member variables
     upc_code = upc;
@@ -88,6 +88,15 @@ namespace cs3505
   int food_item::get_remaining_days()
   {
     return days_to_expiration;
+  }
+
+  /*
+   * Helper method for printing food item to console
+   *
+   */
+  std::string food_item::to_string()
+  {
+    return upc_code + " " + food_name;
   }
 
   //Assignment operator copies the data from rhs to this object.

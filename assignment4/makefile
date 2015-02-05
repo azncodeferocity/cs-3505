@@ -5,7 +5,7 @@
 a.out:	report.o inventory.o food_item.o
 	g++ -o a.out report.o inventory.o food_item.o
 
-report.o:	report.cpp report.h
+report.o:	report.cpp report.h inventory.h food_item.h
 	g++ -c report.cpp
 
 inventory.o:	inventory.cpp inventory.h

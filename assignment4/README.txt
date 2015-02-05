@@ -10,7 +10,8 @@ Do we need a namespace?
 Do we need a default constructor (for food_item, for example)?
 Should we be using namespace std in any files? 
 Do we need to override the = (assignment) operator (in food_item, for example)?
-
+Do we need a default constructor in inventory/ food_item?
+How to initialize sets - should we initialize to null?
 
 
 

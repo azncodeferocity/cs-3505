@@ -25,7 +25,7 @@ namespace cs3505
   {   
   public:
     food_item();           //Default constructor
-    food_item(std::string upc, int initial_life, std::string name); // Constructor
+    food_item(std::string upc, std::string name, int initial_life); // Constructor
     food_item(const food_item & other); // Copy constructor
     ~food_item(); // Destructor
     
@@ -34,6 +34,7 @@ namespace cs3505
     std::string get_food_name();  // getter for food name
     std::string get_upc_code();   // getter for upc code
     int get_remaining_days();     // getter for days until expiration
+    std::string to_string();      // for printing a food item to console
     
     //Assignment operator copies the data from rhs to this object.
     // food_item operator= (const food_item & rhs);
