@@ -8,17 +8,17 @@
  */
 
 
-#ifndef INVENTORY_H
-#define INVENTORY_H
+#ifndef REPORT_H
+#define REPORT_H
 
 
 namespace cs3505
 {
 
-  class inventory
+  class report
   {
   public:
-    inventory(); // public constructor
+    report(); // public constructor
 
   private:
 

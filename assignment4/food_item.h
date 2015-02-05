@@ -10,6 +10,7 @@
 #ifndef FOOD_ITEM_H
 #define FOOD_ITEM_H
 
+<<<<<<< HEAD
 #include<string>
 
 /*
@@ -39,3 +40,22 @@ class food_item
 };
 
 #endif
+=======
+
+namespace cs3505
+{
+
+  class food_item 
+  {
+  public:
+    food_item(); // public constructor
+
+  private:
+
+  };
+}
+
+
+
+#endif
+>>>>>>> 17ad615197307859c78eafd1a2b789c94f98e77e
