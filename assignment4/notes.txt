@@ -31,6 +31,7 @@ Inventory Class
 FoodItem Class
 	 String for UPC code
 	 Int for shelf life
+	 Int for remaining shelf life
 	 String for name
 
 
