@@ -1,0 +1,904 @@
+<!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><i><font color="#9A1900">/* Author: Basil Vetas</font></i>
+<i><font color="#9A1900"> * Date: January 26, 2015</font></i>
+<i><font color="#9A1900"> * Course: CS 3505</font></i>
+<i><font color="#9A1900"> * Assignment: 3</font></i>
+<i><font color="#9A1900"> * </font></i>
+<i><font color="#9A1900"> * This is a tester similar to the tester written in class.  It reads</font></i>
+<i><font color="#9A1900"> * words from a text file, then adds the words to two sets: A built-in</font></i>
+<i><font color="#9A1900"> * set class, and our wordset class.  After reading the file, it</font></i>
+<i><font color="#9A1900"> * prints out all the words stored in the STL set object.  At the end</font></i>
+<i><font color="#9A1900"> * of the test, it prints out the sizes of both sets to see that they</font></i>
+<i><font color="#9A1900"> * are the same.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * After the test completes, I make sure the local variabls are properly</font></i>
+<i><font color="#9A1900"> * cleaned up.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * If the comments wrap lines, widen your emacs window.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * Peter Jensen</font></i>
+<i><font color="#9A1900"> * January 22, 2015</font></i>
+<i><font color="#9A1900"> */</font></i>
+
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iostream&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;fstream&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;set&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iterator&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">"wordset.h"</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">"node.h"</font>
+
+<b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;</font>
+
+<i><font color="#9A1900">// Note:  Our classes were declared in a cs3505 namepsace.</font></i>
+<i><font color="#9A1900">//        Instead of 'using namespace cs3505', I qualify the class names below with cs3505::</font></i>
+
+<font color="#009900">int</font> <b><font color="#000000">main</font></b> <font color="#990000">()</font>
+<font color="#FF0000">{</font>
+  <font color="#009900">bool</font> tests_passed <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+
+  <i><font color="#9A1900">// Open up another block.  This way, when the block ends,</font></i>
+  <i><font color="#9A1900">// variables local to the block will be destroyed, but main</font></i>
+  <i><font color="#9A1900">// will still be running.  (Did you know that you can open</font></i>
+  <i><font color="#9A1900">// up a block at any time to control local variable scope and</font></i>
+  <i><font color="#9A1900">// lifetime?)</font></i>
+  
+  <i><font color="#9A1900">/* Test 0: Add size</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests that our wordset and a regular set have the same size after</font></i>
+<i><font color="#9A1900">   * adding the same elements from Yankee.txt file (test provided by Peter Jensen)</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    <i><font color="#9A1900">// Create the two sets.  Declaring the local variables constructs the objects.</font></i>
+  
+    <font color="#008080">set&lt;string&gt;</font>      stl_set_of_words<font color="#990000">;</font>  <i><font color="#9A1900">// The built-in set class - no constructor parameters.</font></i>
+
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">our_set_of_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    <i><font color="#9A1900">// Open the file stream for reading.  (We'll be able to use it just like</font></i>
+    <i><font color="#9A1900">//   the keyboard stream 'cin'.)</font></i>
+
+    <font color="#008080">ifstream</font> <b><font color="#000000">in</font></b><font color="#990000">(</font><font color="#FF0000">"Yankee.txt"</font><font color="#990000">);</font>
+
+    <i><font color="#9A1900">// Loop for reading the file.  Note that it is controlled</font></i>
+    <i><font color="#9A1900">//   from within the loop (see the 'break').</font></i>
+    
+    <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// Read a word (don't worry about punctuation)</font></i>
+      
+      <font color="#008080">string</font> word<font color="#990000">;</font>
+      in <font color="#990000">&gt;&gt;</font> word<font color="#990000">;</font>
+
+      <i><font color="#9A1900">// If the read failed, we're probably at end of file</font></i>
+      <i><font color="#9A1900">//   (or else the disk went bad).  Exit the loop.</font></i>
+      
+      <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>in<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">())</font>
+        <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+      <i><font color="#9A1900">// Word successfully read.  Add it to both sets.</font></i>
+      
+      stl_set_of_words<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font>word<font color="#990000">);</font>
+      our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>word<font color="#990000">);</font>            
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// Close the file.</font></i>
+
+    in<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">();</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>stl_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">!=</font> our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">())</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The size of your wordset and the size of the regular set are not equal, but should be."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// Print out the words found in the STL set.  I do this to show</font></i>
+    <i><font color="#9A1900">//   students how to get at the entries in an STL object.  For</font></i>
+    <i><font color="#9A1900">//   more examples, look up 'STL iterator examples'.</font></i>
+    <i><font color="#9A1900">// Notice that the iterator object 'it' acts like a pointer, but</font></i>
+    <i><font color="#9A1900">//   it is not a pointer.  (Bad, bad, bad design choice, but not mine!)</font></i>
+    <i><font color="#9A1900">// Feel free to comment this out.</font></i>
+  
+    <i><font color="#9A1900">// for (set&lt;string&gt;::iterator it = stl_set_of_words.begin(); it != stl_set_of_words.end(); it++)</font></i>
+    <i><font color="#9A1900">// {</font></i>
+    <i><font color="#9A1900">//   string s = *it;</font></i>
+    <i><font color="#9A1900">//   cout &lt;&lt; s &lt;&lt; endl;</font></i>
+    <i><font color="#9A1900">// }</font></i>
+
+    <i><font color="#9A1900">// Print out the number of words found in each set.</font></i>
+    
+    <i><font color="#9A1900">// cout &lt;&lt; endl;</font></i>
+    <i><font color="#9A1900">// cout &lt;&lt; "STL set contains " &lt;&lt; stl_set_of_words.size() &lt;&lt; " unique words.\n";</font></i>
+    <i><font color="#9A1900">// cout &lt;&lt; "Our set contains " &lt;&lt; our_set_of_words.size() &lt;&lt; " unique words.\n";</font></i>
+    <i><font color="#9A1900">// cout &lt;&lt; endl;</font></i>
+
+    <i><font color="#9A1900">// Done.  Notice that this code block ends below.  Any local</font></i>
+    <i><font color="#9A1900">// variables declared within this block will be automatically</font></i>
+    <i><font color="#9A1900">// destroyed.  Local objects will have their destructors</font></i>
+    <i><font color="#9A1900">// called.</font></i>
+
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/************************** My Tests **************************/</font></i>
+
+  <i><font color="#9A1900">/* Test 1: Size</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests if a wordset returns the correct size</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">word_set</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">!=</font> <font color="#993399">4</font><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Size of wordset should equal 4 but it does not."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/* Test 2: Contains</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests if wordset.contains returns the correct result</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">word_set</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>word_set<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">)))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The contains method should have returned true but it did not."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>word_set<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">)))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The contains method should have returned true but it did not."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>word_set<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">)))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The contains method should have returned true but it did not."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>word_set<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">)))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The contains method should have returned true but it did not."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/* Test 3: Add contents</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests that our wordset and a regular set have the same contents after</font></i>
+<i><font color="#9A1900">   * adding the same elements from Yankee.txt file </font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    <i><font color="#9A1900">// Create the two sets.  Declaring the local variables constructs the objects.</font></i>
+  
+    <font color="#008080">set&lt;string&gt;</font>      stl_set_of_words<font color="#990000">;</font>  <i><font color="#9A1900">// The built-in set class - no constructor parameters.</font></i>
+
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">our_set_of_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    <i><font color="#9A1900">// Open the file stream for reading.  (We'll be able to use it just like</font></i>
+    <i><font color="#9A1900">//   the keyhboard stream 'cin'.)</font></i>
+
+    <font color="#008080">ifstream</font> <b><font color="#000000">in</font></b><font color="#990000">(</font><font color="#FF0000">"Yankee.txt"</font><font color="#990000">);</font>
+
+    <i><font color="#9A1900">// Loop for reading the file.  Note that it is controlled</font></i>
+    <i><font color="#9A1900">//   from within the loop (see the 'break').</font></i>
+    
+    <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// Read a word (don't worry about punctuation)</font></i>
+      
+      <font color="#008080">string</font> word<font color="#990000">;</font>
+      in <font color="#990000">&gt;&gt;</font> word<font color="#990000">;</font>
+
+      <i><font color="#9A1900">// If the read failed, we're probably at end of file</font></i>
+      <i><font color="#9A1900">//   (or else the disk went bad).  Exit the loop.</font></i>
+      
+      <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>in<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">())</font>
+        <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+      <i><font color="#9A1900">// Word successfully read.  Add it to both sets.</font></i>
+      
+      stl_set_of_words<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font>word<font color="#990000">);</font>
+      our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>word<font color="#990000">);</font>            
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// Close the file.</font></i>
+
+    in<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">();</font>
+
+    <i><font color="#9A1900">// for every word in the normal set</font></i>
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it <font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+
+      <i><font color="#9A1900">// if our set doesn't contain a word</font></i>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">)))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Add method failed, the regular set contains a word that is not in the wordset."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/* Test 4: Get Elements Size</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests if the new array has the correct size after calling get_elements() on our wordset</font></i>
+<i><font color="#9A1900">   * with n parameter less than, greater than, and equal to the size of our wordset</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">word_set</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>
+
+    <i><font color="#9A1900">// ---------- n Equal To size ---------- //</font></i>
+
+    <i><font color="#9A1900">// Create array with n equal to wordset size</font></i>
+    <font color="#008080">string</font> <font color="#990000">*</font>same <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> string<font color="#990000">[</font>word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()];</font>
+
+    <i><font color="#9A1900">// initialize array to double newline strings</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+      same<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">=</font> <font color="#FF0000">"</font><font color="#CC33CC">\n\n</font><font color="#FF0000">"</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// get the elements from the wordset</font></i>
+    word_set<font color="#990000">.</font><b><font color="#000000">get_elements</font></b><font color="#990000">(</font>same<font color="#990000">,</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">());</font>
+
+    <font color="#009900">int</font> equal_to_count <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// iterate through array and count non-null elements</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(</font>same<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">!=</font> <font color="#FF0000">"</font><font color="#CC33CC">\n\n</font><font color="#FF0000">"</font><font color="#990000">)</font>
+        equal_to_count<font color="#990000">++;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>equal_to_count <font color="#990000">!=</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">())</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The get_elements method did not return the correct number of elements when n equals size"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// ---------- n Less Than size ---------- //</font></i>
+
+    <i><font color="#9A1900">// Create array with n equal to wordset size</font></i>
+    <font color="#008080">string</font> <font color="#990000">*</font>less <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> string<font color="#990000">[</font>word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()];</font>
+
+    <i><font color="#9A1900">// initialize array to double newline strings</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+      less<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">=</font> <font color="#FF0000">"</font><font color="#CC33CC">\n\n</font><font color="#FF0000">"</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// get the elements from the wordset</font></i>
+    word_set<font color="#990000">.</font><b><font color="#000000">get_elements</font></b><font color="#990000">(</font>less<font color="#990000">,</font> <font color="#990000">(</font>word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()-</font><font color="#993399">2</font><font color="#990000">));</font>
+
+    <font color="#009900">int</font> less_than_count <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// iterate through array and count non-null elements</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(</font>less<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">!=</font> <font color="#FF0000">"</font><font color="#CC33CC">\n\n</font><font color="#FF0000">"</font><font color="#990000">)</font>
+        less_than_count<font color="#990000">++;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>less_than_count <font color="#990000">!=</font> <font color="#990000">(</font>word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()-</font><font color="#993399">2</font><font color="#990000">))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The get_elements method did not return the correct number of elements when n less than size"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// ---------- n Greater Than size ---------- //</font></i>
+
+    <i><font color="#9A1900">// Create array with n equal to wordset size</font></i>
+    <font color="#008080">string</font> <font color="#990000">*</font>more <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> string<font color="#990000">[</font>word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()];</font>
+
+    <i><font color="#9A1900">// initialize array to double newline strings</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+      more<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">=</font> <font color="#FF0000">"</font><font color="#CC33CC">\n\n</font><font color="#FF0000">"</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// get the elements from the wordset</font></i>
+    word_set<font color="#990000">.</font><b><font color="#000000">get_elements</font></b><font color="#990000">(</font>more<font color="#990000">,</font> <font color="#990000">(</font>word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()+</font><font color="#993399">2</font><font color="#990000">));</font>
+
+    <font color="#009900">int</font> greater_than_count <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// iterate through array and count non-null elements</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>      
+      <b><font color="#0000FF">if</font></b><font color="#990000">(</font>more<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">!=</font> <font color="#FF0000">"</font><font color="#CC33CC">\n\n</font><font color="#FF0000">"</font><font color="#990000">)</font>
+        greater_than_count<font color="#990000">++;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>greater_than_count <font color="#990000">!=</font> <font color="#990000">(</font>word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The get_elements method did not return the correct number of elements when n greater than size"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">delete</font></b> <font color="#990000">[]</font> same<font color="#990000">;</font>
+    <b><font color="#0000FF">delete</font></b> <font color="#990000">[]</font> less<font color="#990000">;</font>
+    <b><font color="#0000FF">delete</font></b> <font color="#990000">[]</font> more<font color="#990000">;</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/* Test 5: Get Elements Contents</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests if the new array has the correct contents after calling get_elements() on our wordset</font></i>
+<i><font color="#9A1900">   * with n parameter less than, greater than, and equal to the size of our wordset</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">word_set</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">);</font>
+    word_set<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>
+
+    <i><font color="#9A1900">// ---------- n Equal To size ---------- //</font></i>
+
+    <i><font color="#9A1900">// Create array with n equal to wordset size</font></i>
+    <font color="#008080">string</font> <font color="#990000">*</font>same <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> string<font color="#990000">[</font>word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()];</font>
+
+    <i><font color="#9A1900">// initialize array to double newline strings</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+      same<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">=</font> <font color="#FF0000">"</font><font color="#CC33CC">\n\n</font><font color="#FF0000">"</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// get the elements from the wordset</font></i>
+    word_set<font color="#990000">.</font><b><font color="#000000">get_elements</font></b><font color="#990000">(</font>same<font color="#990000">,</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">());</font>
+
+    <i><font color="#9A1900">// iterate through array and count non-null elements</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// if the wordset doesn't contain the element in the array</font></i>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>word_set<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>same<font color="#990000">[</font>i<font color="#990000">])))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The array passed to get_elements contains a string not in the wordset when n equals size"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// ---------- n Less Than size ---------- //</font></i>
+
+    <i><font color="#9A1900">// Create array with n equal to wordset size</font></i>
+    <font color="#008080">string</font> <font color="#990000">*</font>less <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> string<font color="#990000">[</font>word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()];</font>
+
+    <i><font color="#9A1900">// initialize array to double newline strings</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+      less<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">=</font> <font color="#FF0000">"</font><font color="#CC33CC">\n\n</font><font color="#FF0000">"</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// get the elements from the wordset</font></i>
+    word_set<font color="#990000">.</font><b><font color="#000000">get_elements</font></b><font color="#990000">(</font>less<font color="#990000">,</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()-</font><font color="#993399">2</font><font color="#990000">);</font>
+
+    <i><font color="#9A1900">// iterate through array and count non-null elements</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// if the wordset doesn't contain the element in the array and it is not null</font></i>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>word_set<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>less<font color="#990000">[</font>i<font color="#990000">]))</font> <font color="#990000">&amp;&amp;</font> <font color="#990000">(</font>less<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">!=</font> <font color="#FF0000">"</font><font color="#CC33CC">\n\n</font><font color="#FF0000">"</font><font color="#990000">))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The array passed to get_elements contains a string not in the wordset when n less than size"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// ---------- n Greater Than size ---------- //</font></i>
+
+    <i><font color="#9A1900">// Create array with n equal to wordset size</font></i>
+    <font color="#008080">string</font> <font color="#990000">*</font>more <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> string<font color="#990000">[</font>word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()];</font>
+
+    <i><font color="#9A1900">// initialize array to double newline strings</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+      more<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">=</font> <font color="#FF0000">"</font><font color="#CC33CC">\n\n</font><font color="#FF0000">"</font><font color="#990000">;</font>
+
+    <i><font color="#9A1900">// get the elements from the wordset</font></i>
+    word_set<font color="#990000">.</font><b><font color="#000000">get_elements</font></b><font color="#990000">(</font>more<font color="#990000">,</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()+</font><font color="#993399">2</font><font color="#990000">);</font>
+
+    <i><font color="#9A1900">// iterate through array and count non-null elements</font></i>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word_set<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// if the wordset doesn't contain the element in the array</font></i>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>word_set<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>more<font color="#990000">[</font>i<font color="#990000">])))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The array passed to get_elements contains a string not in the wordset when n greater than size"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">delete</font></b> <font color="#990000">[]</font> same<font color="#990000">;</font>
+    <b><font color="#0000FF">delete</font></b> <font color="#990000">[]</font> less<font color="#990000">;</font>
+    <b><font color="#0000FF">delete</font></b> <font color="#990000">[]</font> more<font color="#990000">;</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/* Test 6: Copy Constructor Size</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests if the original wordset and copy wordset have the same size </font></i>
+<i><font color="#9A1900">   * after using the copy constructor (and thus the assignment operator)</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">our_set_of_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    <font color="#008080">ifstream</font> <b><font color="#000000">in</font></b><font color="#990000">(</font><font color="#FF0000">"Yankee.txt"</font><font color="#990000">);</font>
+
+    <i><font color="#9A1900">// Loop for reading the file.  Note that it is controlled</font></i>
+    <i><font color="#9A1900">//   from within the loop (see the 'break').</font></i>
+    
+    <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// Read a word (don't worry about punctuation)</font></i>
+      
+      <font color="#008080">string</font> word<font color="#990000">;</font>
+      in <font color="#990000">&gt;&gt;</font> word<font color="#990000">;</font>
+
+      <i><font color="#9A1900">// If the read failed, we're probably at end of file</font></i>
+      <i><font color="#9A1900">//   (or else the disk went bad).  Exit the loop.</font></i>
+      
+      <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>in<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">())</font>
+        <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+      <i><font color="#9A1900">// Word successfully read.  Add it to wordset.</font></i>
+      our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>word<font color="#990000">);</font>            
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// Close the file.</font></i>
+
+    in<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">();</font>
+
+    <i><font color="#9A1900">// Copy original wordset into new wordset</font></i>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">copy_set_of_words</font></b><font color="#990000">(</font>our_set_of_words<font color="#990000">);</font> <i><font color="#9A1900">// A copy of our set of words</font></i>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>copy_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">!=</font> our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">())</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The copy constructor failed to create a copy with the same size as the set it was copied from."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/* Test 7: Copy Constructor Contents</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests if the original wordset and copy wordset have the same elements </font></i>
+<i><font color="#9A1900">   * after using the copy constructor (and thus the assignment operator)</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">our_set_of_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    <font color="#008080">ifstream</font> <b><font color="#000000">in</font></b><font color="#990000">(</font><font color="#FF0000">"Yankee.txt"</font><font color="#990000">);</font>
+
+    <i><font color="#9A1900">// Loop for reading the file.  Note that it is controlled</font></i>
+    <i><font color="#9A1900">//   from within the loop (see the 'break').</font></i>
+    
+    <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// Read a word (don't worry about punctuation)</font></i>
+      
+      <font color="#008080">string</font> word<font color="#990000">;</font>
+      in <font color="#990000">&gt;&gt;</font> word<font color="#990000">;</font>
+
+      <i><font color="#9A1900">// If the read failed, we're probably at end of file</font></i>
+      <i><font color="#9A1900">//   (or else the disk went bad).  Exit the loop.</font></i>
+      
+      <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>in<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">())</font>
+        <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+      <i><font color="#9A1900">// Word successfully read.  Add it to wordset.</font></i>
+      our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>word<font color="#990000">);</font>            
+    <font color="#FF0000">}</font>
+
+    in<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">();</font>
+
+    <i><font color="#9A1900">// Copy original wordset into new wordset</font></i>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">copy_set_of_words</font></b><font color="#990000">(</font>our_set_of_words<font color="#990000">);</font> <i><font color="#9A1900">// A copy of our set of words</font></i>
+
+    <i><font color="#9A1900">// Make an array of strings to hold copy elements</font></i>
+    <font color="#008080">string</font> <font color="#990000">*</font>original_words <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> string<font color="#990000">[</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()];</font>
+
+    <i><font color="#9A1900">// Get elements in our word set</font></i>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">get_elements</font></b><font color="#990000">(</font>original_words<font color="#990000">,</font> our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">());</font>
+
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>copy_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>original_words<font color="#990000">[</font>i<font color="#990000">])))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The copied wordset does not contain at least one word from the original wordset"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">delete</font></b> <font color="#990000">[]</font> original_words<font color="#990000">;</font>
+  <font color="#FF0000">}</font>  
+
+  <i><font color="#9A1900">/* Test 8: Remove Size</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests when we add all theelements from Yankee.txt then remove all the elements </font></i>
+<i><font color="#9A1900">   * from Yankee.txt that the resulting size should equal zero.</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">our_set_of_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    <i><font color="#9A1900">// Open the file stream for reading.  (We'll be able to use it just like</font></i>
+    <i><font color="#9A1900">//   the keyboard stream 'cin'.)</font></i>
+
+    <font color="#008080">ifstream</font> <b><font color="#000000">in</font></b><font color="#990000">(</font><font color="#FF0000">"Yankee.txt"</font><font color="#990000">);</font>
+
+    <i><font color="#9A1900">// Loop for reading the file.  Note that it is controlled</font></i>
+    <i><font color="#9A1900">//   from within the loop (see the 'break').</font></i>
+    
+    <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// Read a word (don't worry about punctuation)</font></i>
+      
+      <font color="#008080">string</font> word<font color="#990000">;</font>
+      in <font color="#990000">&gt;&gt;</font> word<font color="#990000">;</font>
+
+      <i><font color="#9A1900">// If the read failed, we're probably at end of file</font></i>
+      <i><font color="#9A1900">//   (or else the disk went bad).  Exit the loop.</font></i>
+      
+      <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>in<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">())</font>
+        <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+      <i><font color="#9A1900">// Word successfully read.  Add it to wordset.</font></i>
+      our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>word<font color="#990000">);</font>            
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// Close the file.</font></i>
+
+    in<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">();</font>
+
+    <i><font color="#9A1900">// Open the file stream for reading.  (We'll be able to use it just like</font></i>
+    <i><font color="#9A1900">//   the keyboard stream 'cin'.)</font></i>
+
+    <font color="#008080">ifstream</font> <b><font color="#000000">inn</font></b><font color="#990000">(</font><font color="#FF0000">"Yankee.txt"</font><font color="#990000">);</font>
+
+    <i><font color="#9A1900">// Loop for reading the file.  Note that it is controlled</font></i>
+    <i><font color="#9A1900">//   from within the loop (see the 'break').</font></i>
+    
+    <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// Read a word (don't worry about punctuation)</font></i>
+      
+      <font color="#008080">string</font> word<font color="#990000">;</font>
+      inn <font color="#990000">&gt;&gt;</font> word<font color="#990000">;</font>
+
+      <i><font color="#9A1900">// If the read failed, we're probably at end of file</font></i>
+      <i><font color="#9A1900">//   (or else the disk went bad).  Exit the loop.</font></i>
+      
+      <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>inn<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">())</font>
+        <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+      <i><font color="#9A1900">// Word successfully read.  Remove it from wordset.</font></i>
+      our_set_of_words<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font>word<font color="#990000">);</font>     
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// Close the file.</font></i>
+    inn<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">();</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">!=</font> <font color="#993399">0</font><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The remove method failed to remove the correct number of elements, size should have equaled zero but did not"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+  
+
+  <i><font color="#9A1900">/* Test 9: Remove Contents</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests if our regular set and our wordset have the same contents</font></i>
+<i><font color="#9A1900">   * after adding and then removing different string elements. </font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    <font color="#008080">set&lt;string&gt;</font>      stl_set_of_words<font color="#990000">;</font>  <i><font color="#9A1900">// The built-in set class - no constructor parameters.</font></i>
+
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">our_set_of_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    <i><font color="#9A1900">// -------------- Add stuff ---------------- //</font></i>
+
+    stl_set_of_words<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">);</font>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">);</font>            
+    
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it <font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">)))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset failed to add the same elements as the regular set."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    stl_set_of_words<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">);</font>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">);</font>            
+    
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it <font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">)))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset failed to add the same elements as the regular set."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    stl_set_of_words<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">);</font>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">);</font>            
+    
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it <font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">)))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset failed to add the same elements as the regular set."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    stl_set_of_words<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>            
+    
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it <font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">)))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset failed to add the same elements as the regular set."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// -------------- Remove stuff ---------------- //</font></i>
+
+    stl_set_of_words<font color="#990000">.</font><b><font color="#000000">erase</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">);</font>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">);</font> 
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset failed to remove the correct element."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+    
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it <font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">)))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset and regular set do not contain the same elements after removing, but they should;"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    stl_set_of_words<font color="#990000">.</font><b><font color="#000000">erase</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">);</font>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">);</font>            
+    
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset failed to remove the correct element."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it <font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">)))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset and regular set do not contain the same elements after removing, but they should;"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    stl_set_of_words<font color="#990000">.</font><b><font color="#000000">erase</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">);</font>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">);</font>            
+    
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset failed to remove the correct element."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it <font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">)))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset and regular set do not contain the same elements after removing, but they should;"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    stl_set_of_words<font color="#990000">.</font><b><font color="#000000">erase</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>            
+    
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset failed to remove the correct element."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it <font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">)))</font>
+      <font color="#FF0000">{</font>
+        cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Wordset and regular set do not contain the same elements after removing, but they should;"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+        tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/* Test 10: Assignment Size</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests if our copy wordset has the same size as our original wordset</font></i>
+<i><font color="#9A1900">   * after using the = assignment operator </font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">original_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    original_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">);</font>
+    original_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">);</font>
+    original_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">);</font>
+    original_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>
+
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  copy_words <font color="#990000">=</font> original_words<font color="#990000">;</font> <i><font color="#9A1900">// A copy of our set of words</font></i>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>copy_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">!=</font> <font color="#993399">4</font><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The copied wordset does not have the same size as original wordset after using = assignment."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/* Test 11: Assignment Contents</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests if our copy wordset has the same contents as our original wordset</font></i>
+<i><font color="#9A1900">   * after using the = assignment operator </font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">original_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    original_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">);</font>
+    original_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">);</font>
+    original_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">);</font>
+    original_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>
+
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  copy_words <font color="#990000">=</font> original_words<font color="#990000">;</font> <i><font color="#9A1900">// A copy of our set of words</font></i>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>copy_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">)))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The copied wordset does not have the same contents as original wordset after using = assignment."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>copy_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">)))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The copied wordset does not have the same contents as original wordset after using = assignment."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>copy_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"So Long"</font><font color="#990000">)))</font>      
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The copied wordset does not have the same contents as original wordset after using = assignment."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>copy_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">)))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The copied wordset does not have the same contents as original wordset after using = assignment."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/* Test 12: Remove Not Included</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests if the remove function does anything when we try to remove an element not in the wordset</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">our_set_of_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">);</font>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">);</font>
+
+    <i><font color="#9A1900">// Try to remove a word not in the set</font></i>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>    
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">!=</font> <font color="#993399">2</font><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Removing a word not in the wordset changed the size, but should have done nothing."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(!(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"Hello"</font><font color="#990000">))</font> <font color="#990000">||</font> <font color="#990000">!(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font><font color="#FF0000">"Goodbye"</font><font color="#990000">)))</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Removing a word not in the wordset removed the wrong word."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/* Test 13: Remove When Empty</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests what happens if we try to remove a word when the wordset is empty</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">our_set_of_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    <i><font color="#9A1900">// Try to remove a word not in the set</font></i>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font><font color="#FF0000">"Farewell"</font><font color="#990000">);</font>    
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">!=</font> <font color="#993399">0</font><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: Removing a word when the wordset is empty caused the size to erroneously change."</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/* Test 14: Copy Constructor Empty</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   * Tests the copy constructor when we copy an empty wordset</font></i>
+<i><font color="#9A1900">   *</font></i>
+<i><font color="#9A1900">   */</font></i>
+  <font color="#FF0000">{</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">our_set_of_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.    </font></i>
+
+    <i><font color="#9A1900">// Copy original wordset into new wordset</font></i>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">copy_set_of_words</font></b><font color="#990000">(</font>our_set_of_words<font color="#990000">);</font> <i><font color="#9A1900">// A copy of our set of words</font></i>
+
+    <b><font color="#0000FF">if</font></b><font color="#990000">(</font>copy_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">!=</font> our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">())</font>
+    <font color="#FF0000">{</font>
+      cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"ERROR: The sizes of the copied wordset and original wordset are not the same when original in empty;"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+      tests_passed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <i><font color="#9A1900">/************************** End My Tests **************************/</font></i>
+
+  <b><font color="#0000FF">if</font></b><font color="#990000">(</font>tests_passed<font color="#990000">)</font>
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Tests passed</font><font color="#CC33CC">\n</font><font color="#FF0000">"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  <b><font color="#0000FF">else</font></b> 
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Tests failed</font><font color="#CC33CC">\n</font><font color="#FF0000">"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+  <i><font color="#9A1900">// Now that the objects have been destroyed, I will simply call my auditing</font></i>
+  <i><font color="#9A1900">// code to print out how many times constructors have been called, and</font></i>
+  <i><font color="#9A1900">// how many times destructors have been called.  They should exactly match.</font></i>
+  <i><font color="#9A1900">// If not, we have a memory problem.</font></i>
+
+  cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Class cs3505::wordset:"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"    Objects created:  "</font> <font color="#990000">&lt;&lt;</font> cs3505<font color="#990000">::</font>wordset<font color="#990000">::</font><b><font color="#000000">constructor_count</font></b><font color="#990000">()</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"    Objects deleted:  "</font> <font color="#990000">&lt;&lt;</font> cs3505<font color="#990000">::</font>wordset<font color="#990000">::</font><b><font color="#000000">destructor_count</font></b><font color="#990000">()</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  cout <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+  cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Class cs3505::node:"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"    Objects created:  "</font> <font color="#990000">&lt;&lt;</font> cs3505<font color="#990000">::</font>node<font color="#990000">::</font><b><font color="#000000">constructor_count</font></b><font color="#990000">()</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"    Objects deleted:  "</font> <font color="#990000">&lt;&lt;</font> cs3505<font color="#990000">::</font>node<font color="#990000">::</font><b><font color="#000000">destructor_count</font></b><font color="#990000">()</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  cout <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+  <b><font color="#0000FF">if</font></b><font color="#990000">(</font>tests_passed<font color="#990000">)</font>
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Tests passed"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  <b><font color="#0000FF">else</font></b> 
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Tests failed"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+  <i><font color="#9A1900">// Now we're really done.  End main.</font></i>
+  
+  <b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#FF0000">}</font>
+</tt></pre>

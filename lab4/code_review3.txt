@@ -1,0 +1,43 @@
+Basil Vetas
+CS 3505
+2/4/2015
+
+Giovanni Soto
+
+The tests appear complete and are well organized
+into blocks. They are well commented so they are 
+easy to understand. There are a sufficient number 
+of stress tests that test all the basic functionality
+of the wordset class.  There may be a few more edge
+cases that could have been tested but overall it looks 
+good.  The code appears sustainable, and tests are not
+dependent on eachother. The tests can be easily duplicated
+and changed.
+
+Kevin Glanville
+
+The tests seem quite robust and like they cover all the
+statements in the student's wordset function.  The test 
+appear complete and are easily understandable.  The tests
+are well documented, but could use a bit more commenting 
+and larger header comments for clarity.  There is also some
+test dependency, because all the tests use the same wordset
+so if one test does not pass, the following test will likely
+fail. One alternative to this would be to use more blocks to
+segment the code and use new wordsets for each block. Otherwise
+the tests look good and very reusable. 
+
+
+Basil Vetas
+
+The tests appear complete and are well organized
+into blocks. They are well commented so they are 
+easy to understand.  They appear to cover all the 
+statements so code coverage looks good, but I could
+have possibly done more stress tests with large data
+sets or small initial wordset tables. The code looks 
+sustainable and tests are not dependent on eachother. 
+The only dependency is a boolean that indicates if the
+tests have collectively pass or fail, so I maybe should
+have printed out pass, fail values individually. 
+

@@ -1,0 +1,262 @@
+<!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iostream&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;string&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;fstream&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;algorithm&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;set&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">"wordset.h"</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">"node.h"</font>
+
+<i><font color="#9A1900">/*</font></i>
+<i><font color="#9A1900"> *  Testing</font></i>
+<i><font color="#9A1900"> *  Giovanni Soto</font></i>
+<i><font color="#9A1900"> *  </font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;</font>
+
+<font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()</font>
+<font color="#FF0000">{</font>
+
+  <i><font color="#9A1900">// Flags for running induvidual test cases</font></i>
+  <font color="#009900">bool</font> run_test_1 <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font> <i><font color="#9A1900">// Test Add/Remove operations</font></i>
+  <font color="#009900">bool</font> run_test_2 <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font> <i><font color="#9A1900">// Test removing an item that doesn't exist</font></i>
+  <font color="#009900">bool</font> run_test_3 <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font> <i><font color="#9A1900">// Test the equals operator</font></i>
+  <font color="#009900">bool</font> run_test_4 <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font> <i><font color="#9A1900">// Test loading Yankee.txt, remove specific words, test the sizes</font></i>
+
+  <font color="#FF0000">{</font>
+    <i><font color="#9A1900">/// Test Adding/Removing</font></i>
+    <i><font color="#9A1900">/// Form long unique patterns using ascii characters, then add to wordset,</font></i>
+    <i><font color="#9A1900">/// immeadiately remove, the same ascii characters, then check that everything</font></i>
+    <i><font color="#9A1900">/// is removed by checking size and using contains method</font></i>
+    <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>run_test_1<font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test 1: Adding/Removing:"</font><font color="#990000">;</font>
+    
+      cs3505<font color="#990000">::</font><font color="#008080">wordset</font> <b><font color="#000000">ws</font></b><font color="#990000">(</font><font color="#993399">10</font><font color="#990000">);</font>
+
+      <i><font color="#9A1900">// ascii characters bunched up together</font></i>
+      <font color="#009900">int</font> n <font color="#990000">=</font> <font color="#993399">50</font><font color="#990000">;</font>
+      <font color="#009900">int</font> count <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+      <font color="#008080">string</font>  words<font color="#990000">[</font>n<font color="#990000">*</font>n<font color="#990000">];</font>
+      <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> n<font color="#990000">;</font> i<font color="#990000">++)</font>
+      <font color="#FF0000">{</font>
+	<font color="#009900">char</font> c <font color="#990000">=</font> i <font color="#990000">+</font> <font color="#FF0000">'0'</font><font color="#990000">;</font>
+	<font color="#008080">string</font> s <font color="#990000">=</font> <font color="#FF0000">""</font><font color="#990000">;</font>
+	s <font color="#990000">+=</font> c<font color="#990000">;</font>
+	
+	<b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> j <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> j <font color="#990000">&lt;</font> n<font color="#990000">;</font> j<font color="#990000">++)</font>
+	<font color="#FF0000">{</font>
+	  <font color="#009900">char</font> d <font color="#990000">=</font> j <font color="#990000">+</font> <font color="#FF0000">'0'</font><font color="#990000">;</font>
+	  s <font color="#990000">+=</font> d<font color="#990000">;</font>
+	  words<font color="#990000">[</font>count<font color="#990000">]</font> <font color="#990000">=</font> s<font color="#990000">;</font>
+	  count<font color="#990000">++;</font>
+	<font color="#FF0000">}</font>
+      <font color="#FF0000">}</font>
+
+      <i><font color="#9A1900">// Add the set</font></i>
+      <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> n<font color="#990000">*</font>n<font color="#990000">;</font> i<font color="#990000">++)</font>
+      <font color="#FF0000">{</font>	  
+	ws<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>words<font color="#990000">[</font>i<font color="#990000">]);</font>
+      <font color="#FF0000">}</font>
+
+      <i><font color="#9A1900">// Remove from the set</font></i>
+      <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> n<font color="#990000">*</font>n<font color="#990000">;</font> i<font color="#990000">++)</font>
+      <font color="#FF0000">{</font>
+	ws<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font>words<font color="#990000">[</font>i<font color="#990000">]);</font>
+      <font color="#FF0000">}</font>
+
+      <i><font color="#9A1900">// Check that the set does not contain the words</font></i>
+      <font color="#009900">bool</font> good_set <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+      <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> n<font color="#990000">*</font>n<font color="#990000">;</font> i<font color="#990000">++)</font>
+      <font color="#FF0000">{</font>
+	<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>ws<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>words<font color="#990000">[</font>i<font color="#990000">]))</font>
+	<font color="#FF0000">{</font>
+	  good_set <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+	  <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+	<font color="#FF0000">}</font>
+      <font color="#FF0000">}</font>
+      
+      <i><font color="#9A1900">// Print message</font></i>
+      <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>good_set <font color="#990000">&amp;&amp;</font> ws<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font>
+      <font color="#FF0000">{</font>
+	std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"</font><font color="#CC33CC">\t\t\t\t</font><font color="#FF0000">: Test Passed"</font> <font color="#990000">&lt;&lt;</font> std<font color="#990000">::</font>endl<font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+      <b><font color="#0000FF">else</font></b>
+      <font color="#FF0000">{</font>
+	std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"</font><font color="#CC33CC">\t\t\t\t</font><font color="#FF0000">: Test Failed"</font> <font color="#990000">&lt;&lt;</font> std<font color="#990000">::</font>endl<font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <font color="#FF0000">{</font>
+    <i><font color="#9A1900">/// Test Remove an item that doesn't exist</font></i>
+    <i><font color="#9A1900">/// Ensures an item that is clearly not in the set, does not </font></i>
+    <i><font color="#9A1900">/// subtract from the list size.</font></i>
+    <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>run_test_2<font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test 2: Removing an item that doesnt exist:"</font><font color="#990000">;</font>
+
+      cs3505<font color="#990000">::</font><font color="#008080">wordset</font> <b><font color="#000000">ws</font></b><font color="#990000">(</font><font color="#993399">100</font><font color="#990000">);</font>
+    
+      ws<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"hello"</font><font color="#990000">);</font>
+      ws<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"hi"</font><font color="#990000">);</font>
+      ws<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><font color="#FF0000">"greetings"</font><font color="#990000">);</font>
+
+      ws<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font><font color="#FF0000">"Not in the table"</font><font color="#990000">);</font>
+
+      <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>ws<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">==</font> <font color="#993399">3</font><font color="#990000">)</font>
+      <font color="#FF0000">{</font>
+	std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"</font><font color="#CC33CC">\t\t</font><font color="#FF0000">: Test Passed"</font> <font color="#990000">&lt;&lt;</font> std<font color="#990000">::</font>endl<font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+      <b><font color="#0000FF">else</font></b>
+      <font color="#FF0000">{</font>
+	std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"</font><font color="#CC33CC">\t\t</font><font color="#FF0000">: Test Failed"</font> <font color="#990000">&lt;&lt;</font> std<font color="#990000">::</font>endl<font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <font color="#FF0000">{</font>
+    <i><font color="#9A1900">/// Equals operater Test</font></i>
+    <i><font color="#9A1900">/// Ensures that a new set that is copied over from a new set using</font></i>
+    <i><font color="#9A1900">/// the equals operator actually works. Initiall sticks a ton of ascii</font></i>
+    <i><font color="#9A1900">/// strings into the set, then the set is substuted to another set using</font></i>
+    <i><font color="#9A1900">/// the equals operator</font></i>
+    <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>run_test_3<font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test 3: Test Equals Operator: "</font><font color="#990000">;</font>
+
+      <i><font color="#9A1900">// Ascii characters bunched up together</font></i>
+      <font color="#009900">int</font> n <font color="#990000">=</font> <font color="#993399">50</font><font color="#990000">;</font>
+      <font color="#009900">int</font> count <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+      <font color="#008080">string</font>  words<font color="#990000">[</font>n<font color="#990000">*</font>n<font color="#990000">];</font>
+      <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> n<font color="#990000">;</font> i<font color="#990000">++)</font>
+      <font color="#FF0000">{</font>
+	<font color="#009900">char</font> c <font color="#990000">=</font> i <font color="#990000">+</font> <font color="#FF0000">'0'</font><font color="#990000">;</font>
+	<font color="#008080">string</font> s <font color="#990000">=</font> <font color="#FF0000">""</font><font color="#990000">;</font>
+	s <font color="#990000">+=</font> c<font color="#990000">;</font>
+	
+	<b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> j <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> j <font color="#990000">&lt;</font> n<font color="#990000">;</font> j<font color="#990000">++)</font>
+	<font color="#FF0000">{</font>
+	  <font color="#009900">char</font> d <font color="#990000">=</font> j <font color="#990000">+</font> <font color="#FF0000">'0'</font><font color="#990000">;</font>
+	  s <font color="#990000">+=</font> d<font color="#990000">;</font>
+	  words<font color="#990000">[</font>count<font color="#990000">]</font> <font color="#990000">=</font> s<font color="#990000">;</font>
+	  count<font color="#990000">++;</font>
+	<font color="#FF0000">}</font>
+      <font color="#FF0000">}</font>
+    
+      cs3505<font color="#990000">::</font><font color="#008080">wordset</font> <b><font color="#000000">ws</font></b><font color="#990000">(</font><font color="#993399">100</font><font color="#990000">);</font>
+      
+      <i><font color="#9A1900">// Add the ascii strings to wordset</font></i>
+      <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> n<font color="#990000">*</font>n<font color="#990000">;</font> i<font color="#990000">++)</font>
+      <font color="#FF0000">{</font>
+	ws<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>words<font color="#990000">[</font>i<font color="#990000">]);</font>	
+      <font color="#FF0000">}</font>
+    
+      <i><font color="#9A1900">// Create a new list with different words</font></i>
+      cs3505<font color="#990000">::</font><font color="#008080">wordset</font> <b><font color="#000000">ws2</font></b><font color="#990000">(</font><font color="#993399">100</font><font color="#990000">);</font>
+    
+      std<font color="#990000">::</font><font color="#008080">string</font> diffset<font color="#990000">[]</font> <font color="#990000">=</font> <font color="#FF0000">{</font><font color="#FF0000">"different"</font><font color="#990000">,</font> <font color="#FF0000">"reallydifferent"</font><font color="#990000">,</font> <font color="#FF0000">"wowdifferent"</font><font color="#FF0000">}</font><font color="#990000">;</font>
+      
+      <i><font color="#9A1900">// Add worrds to the other set</font></i>
+      <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> <font color="#993399">3</font><font color="#990000">;</font> i<font color="#990000">++)</font>
+      <font color="#FF0000">{</font>
+	ws2<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>diffset<font color="#990000">[</font>i<font color="#990000">]);</font>
+      <font color="#FF0000">}</font>
+
+      <i><font color="#9A1900">// Test equal operator</font></i>
+      ws <font color="#990000">=</font> ws2<font color="#990000">;</font>
+
+      <i><font color="#9A1900">// Check for inconsistancies</font></i>
+      <font color="#009900">bool</font> same <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+      
+      <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> <font color="#993399">3</font><font color="#990000">;</font> i<font color="#990000">++)</font>
+      <font color="#FF0000">{</font>
+	<b><font color="#0000FF">if</font></b> <font color="#990000">(!</font>ws<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>diffset<font color="#990000">[</font>i<font color="#990000">]))</font>
+	<font color="#FF0000">{</font>
+	  same <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+	<font color="#FF0000">}</font>
+      <font color="#FF0000">}</font>
+      
+      <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>same<font color="#990000">)</font>
+      <font color="#FF0000">{</font>
+	std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"</font><font color="#CC33CC">\t\t\t\t</font><font color="#FF0000">: Test Passed"</font> <font color="#990000">&lt;&lt;</font> std<font color="#990000">::</font>endl<font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+      <b><font color="#0000FF">else</font></b>
+      <font color="#FF0000">{</font>
+	std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"</font><font color="#CC33CC">\t\t\t\t</font><font color="#FF0000">: Test Failed!"</font> <font color="#990000">&lt;&lt;</font> std<font color="#990000">::</font>endl<font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <font color="#FF0000">{</font>
+    <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>run_test_4<font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test 4: Yankee: "</font><font color="#990000">;</font>
+      std<font color="#990000">::</font><font color="#008080">set&lt;string&gt;</font>      stl_set_of_words<font color="#990000">;</font>
+
+      cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">our_set_of_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>
+  
+      <i><font color="#9A1900">// Open the file stream for reading.  (We'll be able to use it just like</font></i>
+      <i><font color="#9A1900">//   the keyboard stream 'cin'.)</font></i>
+
+      <font color="#008080">ifstream</font> <b><font color="#000000">in</font></b><font color="#990000">(</font><font color="#FF0000">"Yankee.txt"</font><font color="#990000">);</font>
+
+      <i><font color="#9A1900">// Loop for reading the file.  Note that it is controlled</font></i>
+      <i><font color="#9A1900">//   from within the loop (see the 'break').</font></i>
+    
+      <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">)</font>
+      <font color="#FF0000">{</font>
+	  <i><font color="#9A1900">// Read a word (don't worry about punctuation)</font></i>
+	  <font color="#008080">string</font> word<font color="#990000">;</font>
+	  in <font color="#990000">&gt;&gt;</font> word<font color="#990000">;</font>
+
+	  <i><font color="#9A1900">// If the read failed, we're probably at end of file</font></i>
+	  <i><font color="#9A1900">//   (or else the disk went bad).  Exit the loop.</font></i>
+	  <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>in<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">())</font>
+	    <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+	  <i><font color="#9A1900">// Word successfully read.  Add it to both sets.</font></i>
+	  stl_set_of_words<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font>word<font color="#990000">);</font>
+	  our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>word<font color="#990000">);</font>
+      <font color="#FF0000">}</font>
+
+      <i><font color="#9A1900">// Close the file.</font></i>
+      in<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">();</font>
+
+      <i><font color="#9A1900">// Remove a set of words from the Yankee wordset and the set</font></i>
+      <font color="#008080">string</font> remove_list<font color="#990000">[]</font> <font color="#990000">=</font> <font color="#FF0000">{</font><font color="#FF0000">"the"</font><font color="#990000">,</font> <font color="#FF0000">"a"</font><font color="#990000">,</font> <font color="#FF0000">"and"</font><font color="#FF0000">}</font><font color="#990000">;</font>
+      <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> <font color="#993399">3</font><font color="#990000">;</font> i<font color="#990000">++)</font>
+      <font color="#FF0000">{</font>
+	our_set_of_words<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font>remove_list<font color="#990000">[</font>i<font color="#990000">]);</font>
+	stl_set_of_words<font color="#990000">.</font><b><font color="#000000">erase</font></b><font color="#990000">(</font>remove_list<font color="#990000">[</font>i<font color="#990000">]);</font>
+      <font color="#FF0000">}</font>
+
+      <i><font color="#9A1900">// Ensure the remove worked</font></i>
+      <font color="#009900">bool</font> good <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+      <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> <font color="#993399">3</font><font color="#990000">;</font> i<font color="#990000">++)</font>
+      <font color="#FF0000">{</font>
+	<b><font color="#0000FF">if</font></b> <font color="#990000">(!</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>remove_list<font color="#990000">[</font>i<font color="#990000">]))</font>
+	<font color="#FF0000">{</font>
+	  good <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+	<font color="#FF0000">}</font>
+      <font color="#FF0000">}</font>
+
+      <i><font color="#9A1900">// If there were no inconsistancies and set sizes match, then test passed</font></i>
+      <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>good <font color="#990000">&amp;&amp;</font> our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">==</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">())</font>
+      <font color="#FF0000">{</font>
+	std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"</font><font color="#CC33CC">\t\t\t\t\t</font><font color="#FF0000">: Test Passed"</font> <font color="#990000">&lt;&lt;</font> std<font color="#990000">::</font>endl<font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+      <b><font color="#0000FF">else</font></b>
+      <font color="#FF0000">{</font>
+	std<font color="#990000">::</font>cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"</font><font color="#CC33CC">\t\t\t\t\t</font><font color="#FF0000">: Test Failed"</font> <font color="#990000">&lt;&lt;</font> std<font color="#990000">::</font>endl<font color="#990000">;</font>
+      <font color="#FF0000">}</font>
+
+    <font color="#FF0000">}</font>
+  <font color="#FF0000">}</font>
+
+  <b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#FF0000">}</font>
+</tt></pre>

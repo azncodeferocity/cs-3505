@@ -1,0 +1,173 @@
+<!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><i><font color="#9A1900">/*</font></i>
+<i><font color="#9A1900">Author: Kevin Glanville - 1/30/2015</font></i>
+
+<i><font color="#9A1900">Test0,Test1 from Peter Jensen</font></i>
+
+<i><font color="#9A1900">Test functionality of the wordset class</font></i>
+<i><font color="#9A1900"> */</font></i>
+
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iostream&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;fstream&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;set&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iterator&gt;</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">"wordset.h"</font>
+<b><font color="#000080">#include</font></b> <font color="#FF0000">"node.h"</font>
+
+<b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;</font>
+
+<font color="#009900">int</font> <b><font color="#000000">main</font></b> <font color="#990000">()</font>
+<font color="#FF0000">{</font>
+
+  <font color="#FF0000">{</font>
+    <i><font color="#9A1900">// Create the two sets.  Declaring the local variables constructs the objects.</font></i>
+    <font color="#008080">set&lt;string&gt;</font>      stl_set_of_words<font color="#990000">;</font>  <i><font color="#9A1900">// The built-in set class - no constructor parameters.</font></i>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font>  <b><font color="#000000">our_set_of_words</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>  <i><font color="#9A1900">// Our set class, with a hashtable of 1000 slots.</font></i>
+    <i><font color="#9A1900">// Open the file stream for reading.  (We'll be able to use it just like</font></i>
+    <i><font color="#9A1900">//   the keyboard stream 'cin'.)</font></i>
+    <font color="#008080">ifstream</font> <b><font color="#000000">in</font></b><font color="#990000">(</font><font color="#FF0000">"Yankee.txt"</font><font color="#990000">);</font>
+    <i><font color="#9A1900">// Loop for reading the file.  Note that it is controlled</font></i>
+    <i><font color="#9A1900">//   from within the loop (see the 'break').</font></i>
+    
+    <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">)</font>
+    <font color="#FF0000">{</font>
+      <i><font color="#9A1900">// Read a word (don't worry about punctuation)</font></i>
+      <font color="#008080">string</font> word<font color="#990000">;</font>
+      in <font color="#990000">&gt;&gt;</font> word<font color="#990000">;</font>
+
+      <i><font color="#9A1900">// If the read failed, we're probably at end of file</font></i>
+      <i><font color="#9A1900">//   (or else the disk went bad).  Exit the loop.</font></i>
+      <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>in<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">())</font>
+	<b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+      <i><font color="#9A1900">// Word successfully read.  Add it to both sets.</font></i>
+      stl_set_of_words<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font>word<font color="#990000">);</font>
+      our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>word<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+    <i><font color="#9A1900">// Close the file.</font></i>
+    in<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">();</font>
+
+    <font color="#008080">string</font> result<font color="#990000">;</font> <i><font color="#9A1900">//pass or fail result inside block</font></i>
+    
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test2: wordset contains all words entered"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"pass"</font><font color="#990000">;</font>
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it <font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(</font> <font color="#990000">!</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">)</font> <font color="#990000">)</font>
+	result <font color="#990000">=</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>      	  
+    <font color="#FF0000">}</font>    
+    cout <font color="#990000">&lt;&lt;</font> result <font color="#990000">&lt;&lt;</font> endl <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test3: wordset does not contain removed entries"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"pass"</font><font color="#990000">;</font>
+    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it <font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      our_set_of_words<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font>s<font color="#990000">);</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(</font> our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">)</font> <font color="#990000">)</font> result <font color="#990000">=</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+      our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>s<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+    cout <font color="#990000">&lt;&lt;</font> result <font color="#990000">&lt;&lt;</font> endl <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test4: removing an entry increases node destructor call count"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"pass"</font><font color="#990000">;</font>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it<font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <font color="#009900">int</font> test4_start_count <font color="#990000">=</font> cs3505<font color="#990000">::</font>node<font color="#990000">::</font><b><font color="#000000">destructor_count</font></b><font color="#990000">();</font>
+      our_set_of_words<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font>s<font color="#990000">);</font>
+      <font color="#009900">int</font> test4_end_count <font color="#990000">=</font> cs3505<font color="#990000">::</font>node<font color="#990000">::</font><b><font color="#000000">destructor_count</font></b><font color="#990000">();</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(</font> test4_start_count <font color="#990000">!=</font> <font color="#990000">(</font>test4_end_count <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">)</font> <font color="#990000">)</font> result <font color="#990000">=</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+      our_set_of_words<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>s<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+    cout <font color="#990000">&lt;&lt;</font> result <font color="#990000">&lt;&lt;</font> endl <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test5: assignment copies all elements and adjusts size"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"pass"</font><font color="#990000">;</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font> test5_wordset<font color="#990000">;</font>
+    test5_wordset <font color="#990000">=</font> our_set_of_words<font color="#990000">;</font>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it<font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!</font>test5_wordset<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">))</font> result <font color="#990000">=</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(</font>test5_wordset<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">!=</font> our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">())</font> result <font color="#990000">=</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+    cout <font color="#990000">&lt;&lt;</font> result <font color="#990000">&lt;&lt;</font> endl <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test6: copy constructor copies all elements and adjusts size"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"pass"</font><font color="#990000">;</font>
+    cs3505<font color="#990000">::</font><font color="#008080">wordset</font> <b><font color="#000000">test6_wordset</font></b><font color="#990000">(</font>our_set_of_words<font color="#990000">);</font>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font>set<font color="#990000">&lt;</font>string<font color="#990000">&gt;::</font><font color="#008080">iterator</font> it <font color="#990000">=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">();</font> it<font color="#990000">!=</font> stl_set_of_words<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">();</font> it<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> <font color="#990000">*</font>it<font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!</font>test6_wordset<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">))</font> result <font color="#990000">=</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(</font>test6_wordset<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">!=</font> our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">())</font> result <font color="#990000">=</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+    cout <font color="#990000">&lt;&lt;</font> result <font color="#990000">&lt;&lt;</font> endl <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+    
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test7: get_elements() copies a subset of elements"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"pass"</font><font color="#990000">;</font>
+    <font color="#009900">int</font> test7_arr_size <font color="#990000">=</font> <font color="#993399">10</font><font color="#990000">;</font>
+    <font color="#008080">string</font> <font color="#990000">*</font>test7_str_arr <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> string<font color="#990000">[</font>test7_arr_size<font color="#990000">];</font>
+
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">get_elements</font></b><font color="#990000">(</font>test7_str_arr<font color="#990000">,</font> test7_arr_size<font color="#990000">);</font>
+
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i<font color="#990000">=</font><font color="#993399">0</font><font color="#990000">;</font> i<font color="#990000">&lt;</font>test7_arr_size<font color="#990000">;</font> i<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> test7_str_arr<font color="#990000">[</font>i<font color="#990000">];</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">))</font> result <font color="#990000">=</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+    <b><font color="#0000FF">delete</font></b> <font color="#990000">[]</font> test7_str_arr<font color="#990000">;</font>
+    cout <font color="#990000">&lt;&lt;</font> result <font color="#990000">&lt;&lt;</font> endl <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test8: get_elements() copies all of elements"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"pass"</font><font color="#990000">;</font>
+    <font color="#009900">int</font> test8_arr_size <font color="#990000">=</font> our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font>
+    <font color="#008080">string</font> <font color="#990000">*</font>test8_str_arr <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> string<font color="#990000">[</font>test8_arr_size<font color="#990000">];</font>
+
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">get_elements</font></b><font color="#990000">(</font>test8_str_arr<font color="#990000">,</font> test8_arr_size<font color="#990000">);</font>
+
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i<font color="#990000">=</font><font color="#993399">0</font><font color="#990000">;</font> i<font color="#990000">&lt;</font>test8_arr_size<font color="#990000">;</font> i<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> test8_str_arr<font color="#990000">[</font>i<font color="#990000">];</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">))</font> result <font color="#990000">=</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+    <b><font color="#0000FF">delete</font></b> <font color="#990000">[]</font> test8_str_arr<font color="#990000">;</font>
+    cout <font color="#990000">&lt;&lt;</font> result <font color="#990000">&lt;&lt;</font> endl <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+    cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test9: get_elements() copies only elements in wordset"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+    result <font color="#990000">=</font> <font color="#FF0000">"pass"</font><font color="#990000">;</font>
+    <font color="#009900">int</font> test9_arr_size <font color="#990000">=</font> our_set_of_words<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">+</font> <font color="#993399">10</font><font color="#990000">;</font>
+    <font color="#008080">string</font> <font color="#990000">*</font>test9_str_arr <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> string<font color="#990000">[</font>test9_arr_size<font color="#990000">];</font>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i<font color="#990000">=</font><font color="#993399">0</font><font color="#990000">;</font> i<font color="#990000">&lt;</font>test9_arr_size<font color="#990000">;</font> i<font color="#990000">++)</font> test9_str_arr<font color="#990000">[</font>i<font color="#990000">]=</font><font color="#FF0000">"test"</font><font color="#990000">;</font>
+    our_set_of_words<font color="#990000">.</font><b><font color="#000000">get_elements</font></b><font color="#990000">(</font>test9_str_arr<font color="#990000">,</font> test9_arr_size<font color="#990000">);</font>
+
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i<font color="#990000">=</font><font color="#993399">0</font><font color="#990000">;</font> i<font color="#990000">&lt;</font>test9_arr_size<font color="#990000">;</font> i<font color="#990000">++)</font>
+    <font color="#FF0000">{</font>
+      <font color="#008080">string</font> s <font color="#990000">=</font> test9_str_arr<font color="#990000">[</font>i<font color="#990000">];</font>
+      <b><font color="#0000FF">if</font></b><font color="#990000">(!</font>our_set_of_words<font color="#990000">.</font><b><font color="#000000">contains</font></b><font color="#990000">(</font>s<font color="#990000">))</font> result <font color="#990000">=</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+    <b><font color="#0000FF">for</font></b><font color="#990000">(</font><font color="#009900">int</font> i<font color="#990000">=</font>test9_arr_size<font color="#990000">-</font><font color="#993399">1</font><font color="#990000">;</font> i<font color="#990000">&gt;</font>test9_arr_size<font color="#990000">-</font><font color="#993399">11</font><font color="#990000">;</font> i<font color="#990000">--)</font> <b><font color="#0000FF">if</font></b><font color="#990000">(</font>test9_str_arr<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">!=</font> <font color="#FF0000">"test"</font><font color="#990000">)</font> result <font color="#990000">=</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+    <b><font color="#0000FF">delete</font></b> <font color="#990000">[]</font> test9_str_arr<font color="#990000">;</font>
+    cout <font color="#990000">&lt;&lt;</font> result <font color="#990000">&lt;&lt;</font> endl <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+    <i><font color="#9A1900">//end inner block</font></i>
+  <font color="#FF0000">}</font>
+
+  <font color="#008080">string</font> result<font color="#990000">;</font><i><font color="#9A1900">//pass or fail outside block</font></i>
+
+  cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test0: Class cs3505::wordset created count == deleted"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  result <font color="#990000">=</font> cs3505<font color="#990000">::</font>wordset<font color="#990000">::</font><b><font color="#000000">constructor_count</font></b><font color="#990000">()</font> <font color="#990000">==</font> cs3505<font color="#990000">::</font>wordset<font color="#990000">::</font><b><font color="#000000">destructor_count</font></b><font color="#990000">()</font> <font color="#990000">?</font> <font color="#FF0000">"pass"</font> <font color="#990000">:</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+  cout <font color="#990000">&lt;&lt;</font> result <font color="#990000">&lt;&lt;</font> endl <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+
+  cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Test1: Class cs3505::node created count == deleted"</font> <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  result <font color="#990000">=</font> cs3505<font color="#990000">::</font>node<font color="#990000">::</font><b><font color="#000000">constructor_count</font></b><font color="#990000">()</font> <font color="#990000">==</font> cs3505<font color="#990000">::</font>node<font color="#990000">::</font><b><font color="#000000">destructor_count</font></b><font color="#990000">()</font> <font color="#990000">?</font> <font color="#FF0000">"pass"</font> <font color="#990000">:</font> <font color="#FF0000">"fail"</font><font color="#990000">;</font>
+  cout <font color="#990000">&lt;&lt;</font> result <font color="#990000">&lt;&lt;</font> endl <font color="#990000">&lt;&lt;</font> endl<font color="#990000">;</font>
+  
+  <b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#FF0000">}</font>
+</tt></pre>
