@@ -104,7 +104,6 @@ void read_data_file(string filename);
     string first_word = line.substr(0, line.find(delimiter));
 
     cout << line << endl;
-    cout << first_word << endl;
 
     if (first_word == "FoodItem")
     {
@@ -153,8 +152,10 @@ void read_data_file(string filename);
       int date_end = line.length() - date_start;
       string date = line.substr(date_start, date_end);
 
+      // initialize counter to 0
+
       // Debugging code
-      cout << "**Start Date: " << date << endl;
+      // cout << "**Start Date: " << date << endl;
     }
     else if (first_word == "Receive:")
     {
@@ -180,19 +181,41 @@ void read_data_file(string filename);
       food_item::food_item f(upc_code, stoi(shelf_life), food_location);
 
       // Debugging code
-      cout << "**Receive: " << f.to_string() << endl;
+      // cout << "**Receive: " << f.to_string() << endl;
     }
     else if (first_word == "Request:")
     {
+            // UPC CODE: get start and end index then parse the UPC code
+      string upc_delim = "Request: ";
+      int upc_start = line.find(upc_delim) + upc_delim.length();
+      int upc_end = line.find(delimiter, upc_start) - upc_start;
+      string upc_code = line.substr(upc_start, upc_end);
 
+      // SHELF LIFE: get start and end index then parse the shelf life
+      string sf_delim = upc_code;
+      int sf_start = line.find(sf_delim) + sf_delim.length() + 1; // plus 1 to account for extra space
+      int sf_end = line.find(delimiter, sf_start) - sf_start;
+      string shelf_life = line.substr(sf_start, sf_end);
+
+      // WAREHOUSE NAME: get start and end index then parse the warehouse name
+      string name_delim = upc_code + " " + shelf_life;
+      int wh_start = line.find(name_delim) + name_delim.length() + 1; // plus 1 to account for extra space
+      int wh_end = line.length() - wh_start;
+      string food_location = line.substr(wh_start, wh_end);
+
+      // parse the line and create a food item to store the data
+      food_item::food_item f(upc_code, stoi(shelf_life), food_location);
+
+      // Debugging code
+      // cout << "**Request: " << f.to_string() << endl; 
     }
     else if (first_word == "Next")
     {
-
+      // decrement counter
     }
     else if (first_word == "End")
     {
-
+      // return
     }
     else
     {
