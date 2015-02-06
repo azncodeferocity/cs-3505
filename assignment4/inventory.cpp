@@ -7,6 +7,7 @@
  *
  */
 
+#include <iostream>
 #include <set>
 #include <map>
 #include <queue>
@@ -64,6 +65,16 @@ void inventory::add_item(food_item item, int quantity)
   // add 'quantity' of these food items to the queue in our map of queues
   for (int i = 0; i < quantity; i++)
     items_in_stock[item.get_upc_code()].push_back(item);
+
+  // test code
+  // for (map<string, vector<food_item> >::iterator it = items_in_stock.begin(); it != items_in_stock.end(); ++it)
+  // {
+  //   for(vector<food_item>::iterator v_it = it->second.begin(); v_it != it->second.end(); ++v_it)
+  //   {
+  //     cout << "Food Name: " << v_it->to_string() << endl;
+  //     cout << "Food QTY: " << v_it->get_remaining_days() << endl;
+  //   }
+  // }
 }
 
 /*
@@ -83,6 +94,16 @@ void inventory::remove_item(food_item item, int quantity)
     // otherwise remove a food item from the front of the vector
     items_in_stock[item.get_upc_code()].erase(items_in_stock[item.get_upc_code()].begin());
   }
+
+  // test code
+  // for (map<string, vector<food_item> >::iterator it = items_in_stock.begin(); it != items_in_stock.end(); ++it)
+  // {
+  //   for(vector<food_item>::iterator v_it = it->second.begin(); v_it != it->second.end(); ++v_it)
+  //   {
+  //     cout << "Food Name: " << v_it->to_string() << endl;
+  //     cout << "Food QTY: " << v_it->get_remaining_days() << endl;
+  //   }
+  // }
 }
 
 // /*
@@ -132,7 +153,6 @@ std::string inventory::to_string()
 {
 return warehouse_name;
 }
- 
 
 
 

@@ -152,8 +152,11 @@ void report::generate_report(string filename)
       // parse the line and create a food item to store the data
       food_item::food_item f(upc_code, all_foods[upc_code].get_remaining_days(), food_location);
 
+      all_warehouses[food_location].add_item(f, stoi(quantity));
+
       // Debugging code
-      // cout << "**Receive: " << f.to_string() << endl;
+      // cout << "**Receive days: " << f.get_remaining_days() << endl;
+      // cout << "**Receive: " << f.to_string() << endl; 
     }
     else if (first_word == "Request:")
     {
@@ -178,7 +181,10 @@ void report::generate_report(string filename)
       // parse the line and create a food item to store the data
       food_item::food_item f(upc_code, all_foods[upc_code].get_remaining_days(), food_location);
 
+      all_warehouses[food_location].remove_item(f, stoi(quantity));
+
       // Debugging code
+      // cout << "**Request days: " << f.get_remaining_days() << endl; 
       // cout << "**Request: " << f.to_string() << endl; 
     }
     else if (first_word == "Next")

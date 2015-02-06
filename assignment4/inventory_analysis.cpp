@@ -48,32 +48,23 @@ int main(int argc, char* argv[])
 
   report r; // create a new report object
 
-  // Test code
-  // for (map<string,food_item>::iterator it = fds.begin(); it != fds.end(); ++it)
-  //   cout << it->first << "-> Food Item: " << it->second << endl;
-
-  // for (map<string,food_item>::iterator it = ins.begin(); it != ins.end(); ++it)
-  //   cout << it->first << "-> Inventory: " << it->second << endl;
-  // Test code
-
   r.generate_report(argv[1]); // generate the report by scanning through the data file argument
 
   map<string, food_item> foods = r.get_all_foods();
   map<string, inventory> invts = r.get_all_inventories();
 
   // Test code
-  for (map<string, food_item>::iterator it = foods.begin(); it != foods.end(); ++it)
-  {
-    cout << "Key: " << it->first << endl;
-    cout << " Value: " << it->second.to_string() << endl;
-  }
+  // for (map<string, food_item>::iterator it = foods.begin(); it != foods.end(); ++it)
+  // {
+  //   cout << "Key: " << it->first << endl;
+  //   cout << " Value: " << it->second.to_string() << endl;
+  // }
 
-  for (map<string, inventory>::iterator it = invts.begin(); it != invts.end(); ++it)
-  {
-    cout << "Key: " << it->first << endl;
-    cout << " Value: " << it->second.to_string() << endl;
-  }
-
+  // for (map<string, inventory>::iterator it = invts.begin(); it != invts.end(); ++it)
+  // {
+  //   cout << "Key: " << it->first << endl;
+  //   cout << " Value: " << it->second.to_string() << endl;
+  // }
   // Test code
 
   cout << "\n"; // single blank line
