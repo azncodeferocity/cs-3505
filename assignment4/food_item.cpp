@@ -9,99 +9,83 @@
 
 #include "food_item.h"
 
-namespace cs3505
+/*******************************************************
+* food_item member function definitions
+***************************************************** */
+
+/*
+ * Default constructor
+ *
+ */
+food_item::food_item()
 {
-  /*******************************************************
-  * food_item member function definitions
-  ***************************************************** */
 
-  /*
-   * Default constructor
-   *
-   */
-  food_item::food_item()
-  {
+}
 
-  }
+/*
+ * Main constructor
+ *
+ */
+food_item::food_item(std::string upc, std::string name, int initial_life)
+{
+  // initialize private member variables
+  upc_code = upc;
+  food_name = name;
+  days_to_expiration = initial_life;
+}
 
-  /*
-   * Main constructor
-   *
-   */
-  food_item::food_item(std::string upc, std::string name, int initial_life)
-  {
-    // initialize private member variables
-    upc_code = upc;
-    food_name = name;
-    days_to_expiration = initial_life;
-  }
+/*
+ * Destructor
+ *
+ */
+food_item::~food_item()
+{
 
-  /*
-   * Copy constructor
-   *
-   */
-  food_item::food_item(const food_item & other)
-  {
+}
 
-  }
+/*
+ * Helper method
+ *
+ */
+void food_item::update_shelf_life()
+{
 
-  /*
-   * Destructor
-   *
-   */
-  food_item::~food_item()
-  {
+}
 
-  }
+/*
+ * Helper method
+ *
+ */
+std::string food_item::get_food_name()
+{
+  return food_name;
+}
 
-  /*
-   * Helper method
-   *
-   */
-  void food_item::update_shelf_life()
-  {
+/*
+ * Helper method
+ *
+ */
+std::string food_item::get_upc_code()
+{
+  return upc_code;
+}
 
-  }
+/*
+ * Helper method
+ *
+ */
+int food_item::get_remaining_days()
+{
+  return days_to_expiration;
+}
 
-  /*
-   * Helper method
-   *
-   */
-  std::string food_item::get_food_name()
-  {
-    return food_name;
-  }
-
-  /*
-   * Helper method
-   *
-   */
-  std::string food_item::get_upc_code()
-  {
-    return upc_code;
-  }
-
-  /*
-   * Helper method
-   *
-   */
-  int food_item::get_remaining_days()
-  {
-    return days_to_expiration;
-  }
-
-  /*
-   * Helper method for printing food item to console
-   *
-   */
-  std::string food_item::to_string()
-  {
-    return upc_code + " " + food_name;
-  }
-
-  //Assignment operator copies the data from rhs to this object.
-  // food_item food_item::operator= (const food_item & rhs);
-
+/*
+ * Helper method for printing food item to console
+ *
+ */
+std::string food_item::to_string()
+{
+  return upc_code + " " + food_name;
 }
 
  
