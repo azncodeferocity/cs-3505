@@ -7,7 +7,13 @@
  *
  */
 
- #include "inventory.h"
+#include <set>
+#include <map>
+#include <queue>
+#include <iterator>
+#include "inventory.h"
+
+using namespace std;
 
 /*******************************************************
 * inventory member function definitions
@@ -17,15 +23,18 @@
  * Default constructor
  *
  */
-inventory::inventory(std::string name, std::set<food_item> foods)
+inventory::inventory(string name, set<food_item> all_foods)
 {
-  warehouse_name = name;                  
+  // initialize name of warehouse
+  warehouse_name = name;
 
-  unstocked_foods(foods);
+  // put the list of all the foods in the unstocked set
+  for (set<food_item>::iterator it = all_foods.begin(); it != all_foods.end(); ++it)
+    unstocked_foods.insert(*it);
 }
 
 /*
- * destructor
+ * Destructor
  *
  */
 inventory::~inventory()
@@ -37,52 +46,51 @@ inventory::~inventory()
  * Helper method to add a food item to this inventory
  *
  */
-void inventory::receive_item(food_item item, int quantity)
+void inventory::add_item(food_item item, int quantity)
 {
-  //We may need to override the equality function for food_items
-
-  //Check if this food was not stocked in this warehouse before
-  if(unstocked_foods.find(item) != unstocked_foods.end())
+  // If the food item is not in stock, add it
+  if((stocked_foods.find(item) == stocked_foods.end()) && (unstocked_foods.find(item) != unstocked_foods.end()))
   {
+    // Move the item to stocked foods and out of unstocked foods
     stocked_foods.insert(item);
-    unstocked_foods.erase(item); // Move the item to stocked foods
+    unstocked_foods.erase(item); 
 
-    std::queue<food_item> temp; // Create a queue and add it to the map
-    items_in_stock.insert (std::pair<std::string, std::queue<food_item> >(item.get_upc_code(), temp));
+    // create a queue for this food item
+    queue<food_item> temp;
+
+    // add temp to a map from UPC codes to queues of food items
+    items_in_stock[item.get_upc_code()] = temp;
   }
 
-  std::queue<food_item> temp_queue = items_in_stock.find(item.get_upc_code())->second;
+  // at the end, whether the food item was already stocked or not, add 'quantity' new food items to the queue
   for (int i= 0; i < quantity; i++)
-    temp_queue.push(item);
+    items_in_stock[item.get_upc_code()].push(item);
 }
 
 /*
  * Helper method to remove a food item from this inventory
  *
  */
-void inventory::request_item(food_item item, int quantity)
+void inventory::remove_item(food_item item, int quantity)
 {
   //If this item is unstocked, just return
-  if(unstocked_foods.find(item) != unstocked_foods.end())
+  if((stocked_foods.find(item) == stocked_foods.end()) && (unstocked_foods.find(item) != unstocked_foods.end()))
     return;
 
-  //Find this queue in the map
-std::queue<food_item> temp_queue = items_in_stock.find(item.get_upc_code)->second;
   // Remove until the entire quantity request has been removed or there
   // are no more items of that kind in this inventory.
-  for (int i = quantity; i > quantity; i--)
+  for (int i = quantity; i > 0; i--)
   {
-    temp_queue.pop();
+    items_in_stock[item.get_upc_code()].pop();
 
     // If there are no more items, make sets reflect this and return
-    if(temp_queue.size() == 0)
+    if(items_in_stock[item.get_upc_code()].size() <= 0)
     {
       stocked_foods.erase(item);
       unstocked_foods.insert(item);
       items_in_stock.erase(item.get_upc_code());
       return;
     }
-
   }
 }
 
@@ -90,7 +98,7 @@ std::queue<food_item> temp_queue = items_in_stock.find(item.get_upc_code)->secon
  * Getter for list of stocked foods
  *
  */
-std::set<food_item> inventory::get_stocked_foods()
+set<food_item> inventory::get_stocked_foods()
 {
   return stocked_foods;
 }
@@ -99,7 +107,7 @@ std::set<food_item> inventory::get_stocked_foods()
  * Getter for list of unstocked foods
  *
  */
-std::set<food_item> inventory::get_unstocked_foods()
+set<food_item> inventory::get_unstocked_foods()
 {
   return unstocked_foods;
 }
@@ -121,10 +129,10 @@ void inventory::update_inventory()
    *  cout << endl;
    *}
    */
-  std::pair<std::string, std::queue<food_items> > p;
+  pair<string, queue<food_items> > p;
   BOOST_FOREACH (p , items_in_stock)
   {
-    std::queue<food_item> temp_queue = p.second;
+    queue<food_item> temp_queue = p.second;
     
     BOOST_FOREACH (food_item food, temp_queue)
     {

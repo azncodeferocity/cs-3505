@@ -29,6 +29,9 @@ using namespace std;
 // Forward declarartion of helper functions
 void read_data_file(string filename);
 
+set<food_item> all_foods;      // a list of all the unique food items for this report
+set<inventory> all_warehouses; // a list of all the unique warehouses for this report
+
  /*
   * This in the main entry point for the inventory analysis program.
   * It will print a report containing a list of unstocked products,
@@ -130,6 +133,9 @@ void read_data_file(string filename);
       // parse the line and create a food item to store the data
       food_item::food_item f(upc_code, stoi(shelf_life), food_name);
 
+      // add the food item to our set of all food items
+      all_foods.insert(f);
+
       // Debugging code
       // cout << "**FoodItem: " << f.to_string() << endl;
     }
@@ -140,6 +146,12 @@ void read_data_file(string filename);
       int wh_start = line.find(wh_delim) + wh_delim.length();
       int wh_end = line.length() - wh_start;
       string wh_name = line.substr(wh_start, wh_end);
+
+      // create a new inventory for the given warehouse
+      inventory::inventory i(wh_name, all_foods);
+
+      // add the inventory to our list of warehouses
+      all_warehouses.insert(i);
 
       // Debugging code
       // cout << "**Warehouse: " << wh_name << endl;
@@ -165,20 +177,20 @@ void read_data_file(string filename);
       int upc_end = line.find(delimiter, upc_start) - upc_start;
       string upc_code = line.substr(upc_start, upc_end);
 
-      // SHELF LIFE: get start and end index then parse the shelf life
-      string sf_delim = upc_code;
-      int sf_start = line.find(sf_delim) + sf_delim.length() + 1; // plus 1 to account for extra space
-      int sf_end = line.find(delimiter, sf_start) - sf_start;
-      string shelf_life = line.substr(sf_start, sf_end);
+      // QUANTITY: get start and end index then parse the quantity
+      string qty_delim = upc_code;
+      int qty_start = line.find(qty_delim) + qty_delim.length() + 1; // plus 1 to account for extra space
+      int qty_end = line.find(delimiter, qty_start) - qty_start;
+      string quantity = line.substr(qty_start, qty_end);
 
       // WAREHOUSE NAME: get start and end index then parse the warehouse name
-      string name_delim = upc_code + " " + shelf_life;
+      string name_delim = upc_code + " " + quantity;
       int wh_start = line.find(name_delim) + name_delim.length() + 1; // plus 1 to account for extra space
       int wh_end = line.length() - wh_start;
       string food_location = line.substr(wh_start, wh_end);
 
       // parse the line and create a food item to store the data
-      food_item::food_item f(upc_code, stoi(shelf_life), food_location);
+      // food_item::food_item f(upc_code, stoi(????), food_location);
 
       // Debugging code
       // cout << "**Receive: " << f.to_string() << endl;
@@ -191,20 +203,20 @@ void read_data_file(string filename);
       int upc_end = line.find(delimiter, upc_start) - upc_start;
       string upc_code = line.substr(upc_start, upc_end);
 
-      // SHELF LIFE: get start and end index then parse the shelf life
-      string sf_delim = upc_code;
-      int sf_start = line.find(sf_delim) + sf_delim.length() + 1; // plus 1 to account for extra space
-      int sf_end = line.find(delimiter, sf_start) - sf_start;
-      string shelf_life = line.substr(sf_start, sf_end);
+      // QUANTITY: get start and end index then parse the quantity
+      string qty_delim = upc_code;
+      int qty_start = line.find(qty_delim) + qty_delim.length() + 1; // plus 1 to account for extra space
+      int qty_end = line.find(delimiter, qty_start) - qty_start;
+      string quantity = line.substr(qty_start, qty_end);
 
       // WAREHOUSE NAME: get start and end index then parse the warehouse name
-      string name_delim = upc_code + " " + shelf_life;
+      string name_delim = upc_code + " " + quantity;
       int wh_start = line.find(name_delim) + name_delim.length() + 1; // plus 1 to account for extra space
       int wh_end = line.length() - wh_start;
       string food_location = line.substr(wh_start, wh_end);
 
       // parse the line and create a food item to store the data
-      food_item::food_item f(upc_code, stoi(shelf_life), food_location);
+      // food_item::food_item f(upc_code, stoi(????), food_location);
 
       // Debugging code
       // cout << "**Request: " << f.to_string() << endl; 
