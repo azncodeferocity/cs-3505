@@ -6,12 +6,18 @@ CS 3505
 
 *********** QUESTIONS FOR PETER / TAs ***********
 
-Do we need a namespace?
+Do we need a namespace? -- he didn't both with one, but if our class is declared in a namespace, 
+  then our .cpp files need to be in the same namespace
 Do we need a default constructor (for food_item, for example)?
+  Yes - I think?
 Should we be using namespace std in any files? 
+  Only .cpp files
 Do we need to override the = (assignment) operator (in food_item, for example)?
+  Probly not, he didn't (also no copy constructor)
 Do we need a default constructor in inventory/ food_item?
+  Probly yes
 How to initialize sets - should we initialize to null?
+
 
 
 
