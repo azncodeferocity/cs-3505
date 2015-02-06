@@ -29,17 +29,16 @@ inventory::inventory()
  * Default constructor
  *
  */
-inventory::inventory(string name, set<food_item> s)
+inventory::inventory(string name, map<string, food_item> m)
 {
   // initialize name of warehouse
   warehouse_name = name;
 
   // map the upc codes of food items to a queue of those food items
-  for (set<food_item>::iterator it = s.begin(); it != s.end(); ++it)
+  for (map<string, food_item>::iterator it = m.begin(); it != m.end(); ++it)
   {
-    string upc_code = it->get_upc_code();
     vector<food_item> foods;
-    items_in_stock[upc_code] = foods; 
+    items_in_stock[it->first] = foods; 
   }
 }
 

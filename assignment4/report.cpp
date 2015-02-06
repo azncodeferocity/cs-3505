@@ -104,7 +104,7 @@ void report::generate_report(string filename)
       string wh_name = line.substr(wh_start, wh_end);
 
       // create a new inventory for the given warehouse
-      // inventory::inventory i(wh_name, all_foods);
+      inventory::inventory i(wh_name, all_foods);
 
       // add the inventory to our list of warehouses
       // all_warehouses.insert(i);

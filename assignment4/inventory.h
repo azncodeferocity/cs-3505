@@ -20,9 +20,9 @@
 class inventory
 {
 public:
-  inventory();
-  inventory(std::string name, std::set<food_item> foods);    // default constructor  
-  ~inventory();                                              // destructor
+  inventory();   // default constructor  
+  inventory(std::string name, std::map<std::string, food_item> foods);  // initialize constructor  
+  ~inventory();                                                         // destructor
   void add_item(food_item item, int quantity);               // adds a food item to this inventory
   void remove_item(food_item item, int quantityt);           // removes a food item from this inventory
   void update_inventory();                                   // removes all expired food items
