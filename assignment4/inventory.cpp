@@ -19,14 +19,18 @@ using namespace std;
 * inventory member function definitions
 ***************************************************** */
 
+
+/*
+ * Default constructor
+ *
+ */
 inventory::inventory()
 {
 
 }
 
-
 /*
- * Default constructor
+ * Initialized constructor
  *
  */
 inventory::inventory(string name, map<string, food_item> m)
@@ -119,4 +123,18 @@ void inventory::update_inventory()
       it->second.erase(it->second.begin());
   }
 } 
+
+/*
+  * Helper method for printing food item to console
+  *
+  */
+std::string inventory::to_string()
+{
+return warehouse_name;
+}
  
+
+
+
+
+

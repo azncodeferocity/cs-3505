@@ -29,14 +29,18 @@ public:
   report();           //Default constructor
   ~report();          // Destructor
   void generate_report(std::string filename);
-  std::set<food_item> get_stocked_products();
-  std::set<food_item> get_unstocked_products();
+  std::map<std::string, food_item> get_all_foods();
+  std::map<std::string, inventory> get_all_inventories();
+  // std::set<food_item> get_stocked_products();
+  // std::set<food_item> get_unstocked_products();
 
 private:
-  std::map<std::string, food_item> all_foods;     // a map from all upc codes to food items for this report
-  std::set<inventory> all_warehouses;             // a set of all the warehouses for this report
-  std::set<food_item> all_stocked_foods;          // a set of all the stocked items at end of report
-  std::set<food_item> all_unstocked_foods;        // a set of all the unstocked items at end of report 
+  std::string start_date;                           // start date for the report
+  int days_counter;                                 // counter for days in the report initialized to 0
+  std::map<std::string, food_item> all_foods;       // a map from all upc codes to food items for this report
+  std::map<std::string, inventory> all_warehouses;  // a map from all warehouses names to inventories for this report
+  // std::set<food_item> all_stocked_foods;            // a set of all the stocked items at end of report
+  // std::set<food_item> all_unstocked_foods;          // a set of all the unstocked items at end of report 
 
 };
 

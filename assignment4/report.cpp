@@ -27,17 +27,18 @@ using namespace std;
  // BOOST_RANGE_ADAPTOR_MAP_HPP
 
 /*
- * Constructor
+ * Default constructor
  * 
  *
  */
 report::report()
 {
-
+  // the relative number of days that have passed, initialize to zero
+  days_counter = 0; 
 }
 
 /*
- * Constructor
+ * Destructor
  * 
  *
  */
@@ -92,6 +93,9 @@ void report::generate_report(string filename)
       // add the food item to our map with upc code key and food item value
       all_foods[upc_code] = f; 
 
+      for (map<string, food_item>::iterator it = all_foods.begin(); it != all_foods.end(); ++it)
+        cout << it->second.to_string() << endl;
+
       // Debugging code
       // cout << "**FoodItem: " << f.to_string() << endl;
     }
@@ -107,7 +111,7 @@ void report::generate_report(string filename)
       inventory::inventory i(wh_name, all_foods);
 
       // add the inventory to our list of warehouses
-      // all_warehouses.insert(i);
+      all_warehouses[wh_name] = i; 
 
       // Debugging code
       // cout << "**Warehouse: " << wh_name << endl;
@@ -120,7 +124,7 @@ void report::generate_report(string filename)
       int date_end = line.length() - date_start;
       string date = line.substr(date_start, date_end);
 
-      // initialize counter to 0
+      start_date = date;  // initialize start date
 
       // Debugging code
       // cout << "**Start Date: " << date << endl;
@@ -179,7 +183,8 @@ void report::generate_report(string filename)
     }
     else if (first_word == "Next")
     {
-      // decrement counter
+      // increment days counter
+      days_counter++;
     }
     else if (first_word == "End")
     {
@@ -196,12 +201,33 @@ void report::generate_report(string filename)
 }
 
 
+/*
+ * Getter for all foods
+ * 
+ *
+ */
+map<string, food_item> report::get_all_foods()
+{
+  return all_foods;
+}
+
+/*
+ * Getter for all inventories
+ * 
+ *
+ */
+map<string, inventory> report::get_all_inventories()
+{
+  return all_warehouses;
+}
+
+
 // /*
 //  * Getter for set of stocked food items
 //  * 
 //  *
 //  */
-// set<food_item> report::get_stocked_products()
+// map<food_item> report::get_stocked_products()
 // {
 //   return all_stocked_foods;
 // }
