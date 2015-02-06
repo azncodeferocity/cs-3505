@@ -89,8 +89,8 @@ void report::generate_report(string filename)
       // parse the line and create a food item to store the data
       food_item::food_item f(upc_code, stoi(shelf_life), food_name);
 
-      // add the food item to our set of all food items
-      // all_foods.insert(f);
+      // add the food item to our map with upc code key and food item value
+      all_foods[upc_code] = f; 
 
       // Debugging code
       // cout << "**FoodItem: " << f.to_string() << endl;
@@ -146,7 +146,7 @@ void report::generate_report(string filename)
       string food_location = line.substr(wh_start, wh_end);
 
       // parse the line and create a food item to store the data
-      // food_item::food_item f(upc_code, stoi(????), food_location);
+      food_item::food_item f(upc_code, all_foods[upc_code].get_remaining_days(), food_location);
 
       // Debugging code
       // cout << "**Receive: " << f.to_string() << endl;
@@ -172,7 +172,7 @@ void report::generate_report(string filename)
       string food_location = line.substr(wh_start, wh_end);
 
       // parse the line and create a food item to store the data
-      // food_item::food_item f(upc_code, stoi(????), food_location);
+      food_item::food_item f(upc_code, all_foods[upc_code].get_remaining_days(), food_location);
 
       // Debugging code
       // cout << "**Request: " << f.to_string() << endl; 

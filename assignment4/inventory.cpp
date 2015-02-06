@@ -91,6 +91,7 @@ void inventory::remove_item(food_item item, int quantity)
 //   return stocked_foods;
 // }
 
+
 // /*
 //  * Getter for list of unstocked foods
 //  *
@@ -107,12 +108,14 @@ void inventory::remove_item(food_item item, int quantity)
  */
 void inventory::update_inventory()
 {
-
+  // for each value in the map, iterate over it and get the vector
   for (map<string, vector<food_item> >::iterator it = items_in_stock.begin(); it != items_in_stock.end(); ++it)
   {
+    // for each vector, iterate over it and update the shelf life (decrement by 1 day)
     for(vector<food_item>::iterator v_it = it->second.begin(); v_it != it->second.end(); ++v_it)
       v_it->update_shelf_life();
 
+    // while the front element of this vector has 0 remaining days, remove it from the vector
     while(it->second.front().get_remaining_days() == 0)
       it->second.erase(it->second.begin());
   }

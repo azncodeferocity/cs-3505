@@ -11,6 +11,7 @@
 #define REPORT_H
 
 #include <string>
+#include <vector>
 #include <set>
 #include "food_item.h"
 #include "inventory.h"
@@ -32,10 +33,10 @@ public:
   std::set<food_item> get_unstocked_products();
 
 private:
-  std::set<food_item> all_foods;      // a set of all the food items for this report
-  std::set<inventory> all_warehouses; // a set of all the warehouses for this report
-  std::set<food_item> all_stocked_foods;         // a set of all the stocked items at end of report
-  std::set<food_item> all_unstocked_foods;       // a set of all the unstocked items at end of report 
+  std::map<std::string, food_item> all_foods;     // a map from all upc codes to food items for this report
+  std::set<inventory> all_warehouses;             // a set of all the warehouses for this report
+  std::set<food_item> all_stocked_foods;          // a set of all the stocked items at end of report
+  std::set<food_item> all_unstocked_foods;        // a set of all the unstocked items at end of report 
 
 };
 
