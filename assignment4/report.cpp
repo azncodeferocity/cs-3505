@@ -106,37 +106,101 @@ void read_data_file(string filename);
     cout << line << endl;
     cout << first_word << endl;
 
-    if(first_word == "FoodItem")
+    if (first_word == "FoodItem")
     {
       // delimiters for finding correct strings
       string upc_delim = "UPC Code: ";
-      string name_delim = "Name: ";
       string sf_delim = "Shelf life: ";
+      string name_delim = "Name: ";
 
-      // get start and end index then parse the UPC code
+      // UPC CODE: get start and end index then parse the UPC code
       int upc_start = line.find(upc_delim) + upc_delim.length();
       int upc_end = line.find(delimiter, upc_start) - upc_start;
       string upc_code = line.substr(upc_start, upc_end);
 
-      // get start and end index then parse the shelf life
+      // SHELF LIFE: get start and end index then parse the shelf life
       int life_start = line.find(sf_delim) + sf_delim.length();
       int life_end = line.find(delimiter, life_start) - life_start;
-      int shelf_life = stoi(line.substr(life_start, life_end));
+      string shelf_life = line.substr(life_start, life_end);
       
-      // get start and end index then parse the food name
+      // FOOD NAME: get start and end index then parse the food name
       int name_start = line.find(name_delim) + name_delim.length();
       int name_end = line.length() - name_start;
-      string name = line.substr(name_start, name_end);
+      string food_name = line.substr(name_start, name_end);
 
       // parse the line and create a food item to store the data
-      food_item::food_item f(upc_code, shelf_life, name);      
+      food_item::food_item f(upc_code, stoi(shelf_life), food_name);
 
-      cout << f.to_string() << endl;
+      // Debugging code
+      // cout << "**FoodItem: " << f.to_string() << endl;
+    }
+    else if (first_word == "Warehouse")
+    {
+      string wh_delim = "Warehouse - ";
+
+      int wh_start = line.find(wh_delim) + wh_delim.length();
+      int wh_end = line.length() - wh_start;
+      string wh_name = line.substr(wh_start, wh_end);
+
+      // Debugging code
+      // cout << "**Warehouse: " << wh_name << endl;
+    }
+    else if (first_word == "Start")
+    {
+      string date_delim = "Start date: ";
+
+      int date_start = line.find(date_delim) + date_delim.length();
+      int date_end = line.length() - date_start;
+      string date = line.substr(date_start, date_end);
+
+      // Debugging code
+      cout << "**Start Date: " << date << endl;
+    }
+    else if (first_word == "Receive:")
+    {
+      // UPC CODE: get start and end index then parse the UPC code
+      string upc_delim = "Receive: ";
+      int upc_start = line.find(upc_delim) + upc_delim.length();
+      int upc_end = line.find(delimiter, upc_start) - upc_start;
+      string upc_code = line.substr(upc_start, upc_end);
+
+      // SHELF LIFE: get start and end index then parse the shelf life
+      string sf_delim = upc_code;
+      int sf_start = line.find(sf_delim) + sf_delim.length() + 1; // plus 1 to account for extra space
+      int sf_end = line.find(delimiter, sf_start) - sf_start;
+      string shelf_life = line.substr(sf_start, sf_end);
+
+      // WAREHOUSE NAME: get start and end index then parse the warehouse name
+      string name_delim = upc_code + " " + shelf_life;
+      int wh_start = line.find(name_delim) + name_delim.length() + 1; // plus 1 to account for extra space
+      int wh_end = line.length() - wh_start;
+      string food_location = line.substr(wh_start, wh_end);
+
+      // parse the line and create a food item to store the data
+      food_item::food_item f(upc_code, stoi(shelf_life), food_location);
+
+      // Debugging code
+      cout << "**Receive: " << f.to_string() << endl;
+    }
+    else if (first_word == "Request:")
+    {
+
+    }
+    else if (first_word == "Next")
+    {
+
+    }
+    else if (first_word == "End")
+    {
+
+    }
+    else
+    {
+
     }
 
-
-
   }
+
  }
 
 
