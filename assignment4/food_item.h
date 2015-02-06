@@ -23,7 +23,7 @@ class food_item
 {   
 public:
   food_item();           //Default constructor
-  food_item(std::string upc, std::string name, int initial_life); // Constructor  
+  food_item(std::string upc, int initial_life, std::string name); // Constructor  
   ~food_item(); // Destructor
   
   //Updates this food items remaining life at the start of the next day.

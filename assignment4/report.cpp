@@ -65,8 +65,8 @@ void read_data_file(string filename);
 
 
   // test code
-  //cs3505::food_item::food_item pizza("0984713912", "pizza", 3);
-  //cout << pizza.to_string() << endl;
+  // food_item::food_item pizza("0984713912", 3, "pizza");
+  // cout << pizza.to_string() << endl;
   // test code
 
 
@@ -94,14 +94,40 @@ void read_data_file(string filename);
  */
  void read_data_file(string filename)
  {
-  string line; // stores current line
-
+  string line; // stores current line  
   ifstream in(filename); // file stream object
 
   // read in the data file and process each line
   while(getline(in, line))
   {
+    string delimiter = " ";
+    string first_word = line.substr(0, line.find(delimiter));
+
     cout << line << endl;
+    cout << first_word << endl;
+
+    if(first_word == "FoodItem")
+    {
+      string upc_delim = "UPC Code: ";
+      string name_delim = "Name: ";
+      string sf_delim = "Shelf life: ";
+
+
+      // find returns beginning position of the string, but we want the end, so
+      // add the length of the string to our starting index
+      string upc_code = line.substr(line.find(upc_delim) + upc_delim.length(), line.find(delimiter));
+      //cout << "upc code: " << upc_code << endl;
+      string name = line.substr(line.find(name_delim) + name_delim.length(), line.length() - (line.find(name_delim) + name_delim.length()));
+      //cout << "name: " << name << endl;
+
+      // parse the line and create a food item to store the data
+      food_item::food_item f(upc_code, 1, name);
+
+      // stoi(line.substr(line.find(sf_delim) + sf_delim.length(), line.find(delimiter)))
+
+      cout << "FoodItem: " << f.to_string() << endl;
+    }
+
   }
  }
 

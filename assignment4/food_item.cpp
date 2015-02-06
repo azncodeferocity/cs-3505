@@ -26,12 +26,12 @@ food_item::food_item()
  * Main constructor
  *
  */
-food_item::food_item(std::string upc, std::string name, int initial_life)
+food_item::food_item(std::string upc, int initial_life, std::string name)
 {
   // initialize private member variables
   upc_code = upc;
-  food_name = name;
   days_to_expiration = initial_life;
+  food_name = name;
 }
 
 /*

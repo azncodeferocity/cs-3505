@@ -19,11 +19,6 @@ Do we need a default constructor in inventory/ food_item?
 How to initialize sets - should we initialize to null?
 
 
-
-
-Can I delete report.h? And if we use helper function just forward declare them?
-
-
 *********** PROGRAM NOTES ***********
 
 
