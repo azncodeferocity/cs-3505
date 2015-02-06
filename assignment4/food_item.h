@@ -22,16 +22,16 @@
 class food_item
 {   
 public:
-  food_item();           //Default constructor
+  food_item();            //Default constructor
   food_item(std::string upc, int initial_life, std::string name); // Constructor  
-  ~food_item(); // Destructor
-  
-  //Updates this food items remaining life at the start of the next day.
-  void update_shelf_life();
-  std::string get_food_name();  // getter for food name
-  std::string get_upc_code();   // getter for upc code
-  int get_remaining_days();     // getter for days until expiration
-  std::string to_string();      // for printing a food item to console
+  ~food_item();           // Destructor
+    
+  void update_shelf_life();     // Updates this food items remaining life at the start of the next day.
+  std::string get_food_name() const;  // Getter for food name
+  std::string get_upc_code() const;   // Getter for upc code
+  int get_remaining_days() const;     // Getter for days until expiration
+  std::string to_string();      // For printing a food item to console
+  // bool operator< (food_item & rhs) const;
 
 private:
   std::string upc_code;    // Uniquely identifies a type of food item

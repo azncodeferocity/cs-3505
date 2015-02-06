@@ -6,6 +6,13 @@ CS 3505
 
 *********** QUESTIONS FOR PETER / TAs ***********
 
+Help debugging - inventory.cpp, and sets in report.cpp
+How do I initialize sets in report.cpp constructor?
+
+
+
+
+
 Do we need a namespace? -- he didn't both with one, but if our class is declared in a namespace, 
   then our .cpp files need to be in the same namespace
 Do we need a default constructor (for food_item, for example)?

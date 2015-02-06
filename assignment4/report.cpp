@@ -3,8 +3,7 @@
  * Course: CS 3505
  * Assignment: 4
  * 
- * This class contains the main method for the inventory analysis
- * which generates the report
+ * This class generates the report
  *
  */
 
@@ -17,6 +16,7 @@
 #include <boost/foreach.hpp>
 #include <boost/range/adaptor/map.hpp>
 #include <boost/algorithm/string/trim.hpp>
+#include "report.h"
 #include "inventory.h"
 #include "food_item.h"
 
@@ -26,77 +26,33 @@ using namespace std;
  // BOOST_STRING_TRIM_HPP
  // BOOST_RANGE_ADAPTOR_MAP_HPP
 
-// Forward declarartion of helper functions
-void read_data_file(string filename);
+/*
+ * Constructor
+ * 
+ *
+ */
+report::report()
+{
 
-set<food_item> all_foods;      // a list of all the unique food items for this report
-set<inventory> all_warehouses; // a list of all the unique warehouses for this report
+}
 
- /*
-  * This in the main entry point for the inventory analysis program.
-  * It will print a report containing a list of unstocked products,
-  * which do not exist in any warehouse, and also a list of well
-  * stocked products, which exist in two or more warehouses.
-  *
-  */
- int main(int argc, char* argv[])
- {
+/*
+ * Constructor
+ * 
+ *
+ */
+report::~report()
+{
 
-  // if there are the wrong number of arguments, return error message
-  if(argc < 2)
-    {
-      cout << "You have entered too few parameters. Please enter exactly one file name as a parameter." << endl;
-      return 1;
-    }
-  else if(argc > 2)
-    {
-      cout << "You have entered too many parameters. Please enter exactly one file name as a parameter." << endl;
-      return 1;
-    }
-  else
-    read_data_file(argv[1]);
-
-
-  cout << "\n"; // single blank line
-  cout << "Report by Basil Vetas and Lance Petersen" << endl;
-  cout << "\n"; // single blank line
-  cout << "Unstocked Products:" << endl;
-  // determine which products do not exist in any warehouse and print below
-  // don't print any other information, and no duplicate products, for example:
-  // 0984713912 pizza
-  // 0278374752 bagels
-
-
-  // test code
-  // food_item::food_item pizza("0984713912", 3, "pizza");
-  // cout << pizza.to_string() << endl;
-  // test code
-
-
-
-  // --------- DO STUFF HERE --------- //
-
-  cout << "\n"; // single blank line
-  cout << "Well-Stocked Products:" << endl;
-  // determine which products exist in multiple warehouses (positive quantities in at least two warehouses)
-  // print out only the UPC and name, for example 
-  // 0984712812 mushroom ice cream
-  // 0278374652 seaweed cereal
-
-  // --------- DO STUFF HERE --------- //
-
-  cout << "\n"; // single blank line
-
-  return 0;
- }
+}
 
 /*
  * Reads in the data file passed as a parameter
  * 
  *
  */
- void read_data_file(string filename)
- {
+void report::generate_report(string filename)
+{
   string line; // stores current line  
   ifstream in(filename); // file stream object
 
@@ -134,7 +90,7 @@ set<inventory> all_warehouses; // a list of all the unique warehouses for this r
       food_item::food_item f(upc_code, stoi(shelf_life), food_name);
 
       // add the food item to our set of all food items
-      all_foods.insert(f);
+      // all_foods.insert(f);
 
       // Debugging code
       // cout << "**FoodItem: " << f.to_string() << endl;
@@ -148,10 +104,10 @@ set<inventory> all_warehouses; // a list of all the unique warehouses for this r
       string wh_name = line.substr(wh_start, wh_end);
 
       // create a new inventory for the given warehouse
-      inventory::inventory i(wh_name, all_foods);
+      // inventory::inventory i(wh_name, all_foods);
 
       // add the inventory to our list of warehouses
-      all_warehouses.insert(i);
+      // all_warehouses.insert(i);
 
       // Debugging code
       // cout << "**Warehouse: " << wh_name << endl;
@@ -236,7 +192,29 @@ set<inventory> all_warehouses; // a list of all the unique warehouses for this r
 
   }
 
- }
+
+}
+
+
+// /*
+//  * Getter for set of stocked food items
+//  * 
+//  *
+//  */
+// set<food_item> report::get_stocked_products()
+// {
+//   return all_stocked_foods;
+// }
+
+
+//  // * Getter for set of unstocked food items
+//  // * 
+//  // *
+ 
+// set<food_item> report::get_unstocked_products()
+// {
+//   return all_unstocked_foods;
+// }
 
 
 

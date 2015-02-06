@@ -7,6 +7,8 @@
  *
  */
 
+
+
 #include "food_item.h"
 
 /*******************************************************
@@ -49,14 +51,14 @@ food_item::~food_item()
  */
 void food_item::update_shelf_life()
 {
-
+  days_to_expiration--;
 }
 
 /*
  * Helper method
  *
  */
-std::string food_item::get_food_name()
+std::string food_item::get_food_name() const
 {
   return food_name;
 }
@@ -65,7 +67,7 @@ std::string food_item::get_food_name()
  * Helper method
  *
  */
-std::string food_item::get_upc_code()
+std::string food_item::get_upc_code() const
 {
   return upc_code;
 }
@@ -74,7 +76,7 @@ std::string food_item::get_upc_code()
  * Helper method
  *
  */
-int food_item::get_remaining_days()
+int food_item::get_remaining_days() const
 {
   return days_to_expiration;
 }
@@ -87,5 +89,10 @@ std::string food_item::to_string()
 {
   return upc_code + " " + food_name;
 }
+
+// bool operator< (food_item & rhs) const
+// {
+
+// }
 
  

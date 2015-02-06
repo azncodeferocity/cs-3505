@@ -14,12 +14,13 @@
 #include <string>
 #include <set>
 #include <map>
-#include <queue>
+#include <vector>
 #include "food_item.h"
 
 class inventory
 {
 public:
+  inventory();
   inventory(std::string name, std::set<food_item> foods);    // default constructor  
   ~inventory();                                              // destructor
   void add_item(food_item item, int quantity);               // adds a food item to this inventory
@@ -29,10 +30,8 @@ public:
   std::set<food_item> get_unstocked_foods();                 // getter for unstocked foods set
 
 private:
-  std::string warehouse_name;                                // name of the warehouse
-  std::set<food_item> stocked_foods;                         // set of foods at this warehouse
-  std::set<food_item> unstocked_foods;                       // set of foods not at this warehouse
-  std::map<std::string, std::queue<food_item> > items_in_stock; // map to queues of food items and quantities
+  std::string warehouse_name;                                // name of the warehouse  
+  std::map<std::string, std::vector<food_item> > items_in_stock; // map to queues of food items and quantities
 };
 
 #endif

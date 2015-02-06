@@ -2,10 +2,13 @@
 # The first rule is the default
 # may need to add .h files as we end up using them in .cpp files
 
-a.out:	report.o inventory.o food_item.o
-	g++ -o a.out report.o inventory.o food_item.o
+a.out:	inventory_analysis.o report.o inventory.o food_item.o
+	g++ -o a.out inventory_analysis.o report.o inventory.o food_item.o
 
-report.o:	report.cpp inventory.h food_item.h
+inventory_analysis.o:	inventory_analysis.cpp inventory.h food_item.h report.h
+	g++ -c inventory_analysis.cpp
+
+report.o:	report.cpp inventory.h food_item.h report.h
 	g++ -c report.cpp
 
 inventory.o:	inventory.cpp inventory.h
