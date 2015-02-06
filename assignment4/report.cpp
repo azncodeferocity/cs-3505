@@ -108,24 +108,30 @@ void read_data_file(string filename);
 
     if(first_word == "FoodItem")
     {
+      // delimiters for finding correct strings
       string upc_delim = "UPC Code: ";
       string name_delim = "Name: ";
       string sf_delim = "Shelf life: ";
 
+      // get start and end index then parse the UPC code
+      int upc_start = line.find(upc_delim) + upc_delim.length();
+      int upc_end = line.find(delimiter, upc_start) - upc_start;
+      string upc_code = line.substr(upc_start, upc_end);
 
-      // find returns beginning position of the string, but we want the end, so
-      // add the length of the string to our starting index
-      string upc_code = line.substr(line.find(upc_delim) + upc_delim.length(), line.find(delimiter));
-      //cout << "upc code: " << upc_code << endl;
-      string name = line.substr(line.find(name_delim) + name_delim.length(), line.length() - (line.find(name_delim) + name_delim.length()));
-      //cout << "name: " << name << endl;
+      
+      // get start and end index then parse the food name
+      int name_start = line.find(name_delim) + name_delim.length();
+      int name_end = line.length() - (line.find(name_delim) + name_delim.length());
+      string name = line.substr(name_start, name_end);
 
+      
+      // get start and end index then parse the shelf life
+      int life_start = line.find(sf_delim) + sf_delim.length();
+      int life_end = line.find(delimiter, life_start) - life_start;
+      int shelf_life = stoi(line.substr(life_start, life_end));
+      
       // parse the line and create a food item to store the data
-      food_item::food_item f(upc_code, 1, name);
-
-      // stoi(line.substr(line.find(sf_delim) + sf_delim.length(), line.find(delimiter)))
-
-      cout << "FoodItem: " << f.to_string() << endl;
+      food_item::food_item f(upc_code, shelf_life, name);      
     }
 
   }
