@@ -191,6 +191,9 @@ void report::generate_report(string filename)
     {
       // increment days counter
       days_counter++;
+
+      // for(map<string, inventory>::iterator it = all_warehouses.begin(); it != all_warehouses.end(); ++it)
+      //   it->second.update_inventory();
     }
     else if (first_word == "End")
     {

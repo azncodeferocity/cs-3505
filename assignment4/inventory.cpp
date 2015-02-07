@@ -137,11 +137,17 @@ void inventory::update_inventory()
   {
     // for each vector, iterate over it and update the shelf life (decrement by 1 day)
     for(vector<food_item>::iterator v_it = it->second.begin(); v_it != it->second.end(); ++v_it)
+    {
       v_it->update_shelf_life();
+      
+      // test code
+      // cout << "Remaining Days: " << v_it->get_remaining_days() << endl;
+    }
+      
 
     // while the front element of this vector has 0 remaining days, remove it from the vector
     while(it->second.front().get_remaining_days() == 0)
-      it->second.erase(it->second.begin());
+      it->second.erase(it->second.begin()); // remove from beginning index (0)
   }
 } 
 
