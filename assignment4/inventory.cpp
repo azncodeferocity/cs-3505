@@ -107,23 +107,13 @@ void inventory::remove_item(food_item item, int quantity)
 }
 
 // /*
-//  * Getter for list of stocked foods
+//  * Getter for list of all food items
 //  *
 //  */
-// set<food_item> inventory::get_stocked_foods()
-// {
-//   return stocked_foods;
-// }
-
-
-// /*
-//  * Getter for list of unstocked foods
-//  *
-//  */
-// set<food_item> inventory::get_unstocked_foods()
-// {
-//   return unstocked_foods;
-// }
+map<string, vector<food_item> > inventory::get_all_foods()
+{
+  return items_in_stock;
+}
 
 /*
  * Updates the inventory each new day by removing 
@@ -159,9 +149,9 @@ void inventory::update_inventory()
 } 
 
 /*
-  * Helper method for printing food item to console
-  *
-  */
+ * Helper method for printing food item to console
+ *
+ */
 std::string inventory::to_string()
 {
   return warehouse_name;

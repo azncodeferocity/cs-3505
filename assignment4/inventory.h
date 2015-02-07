@@ -26,8 +26,7 @@ public:
   void add_item(food_item item, int quantity);               // adds a food item to this inventory
   void remove_item(food_item item, int quantityt);           // removes a food item from this inventory
   void update_inventory();                                   // removes all expired food items
-  std::set<food_item> get_stocked_foods();                   // getter for stocked foods set
-  std::set<food_item> get_unstocked_foods();                 // getter for unstocked foods set
+  std::map<std::string, std::vector<food_item> > get_all_foods();        // returns map of all foods 
   std::string to_string();                                   // For printing an inventory to console
 
 private:
