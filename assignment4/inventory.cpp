@@ -39,7 +39,7 @@ inventory::inventory(string name, map<string, food_item> m)
   // initialize name of warehouse
   warehouse_name = name;
 
-  // map the upc codes of food items to a queue of those food items
+  // map the upc codes of food items to a vector of those food items
   for (map<string, food_item>::iterator it = m.begin(); it != m.end(); ++it)
   {
     vector<food_item> foods;
@@ -135,19 +135,26 @@ void inventory::update_inventory()
   // for each value in the map, iterate over it and get the vector
   for (map<string, vector<food_item> >::iterator it = items_in_stock.begin(); it != items_in_stock.end(); ++it)
   {
-    // for each vector, iterate over it and update the shelf life (decrement by 1 day)
-    for(vector<food_item>::iterator v_it = it->second.begin(); v_it != it->second.end(); ++v_it)
+    // if the vector has at least one element then loop through it
+    if(it->second.size() > 0)
     {
-      v_it->update_shelf_life();
-      
-      // test code
-      // cout << "Remaining Days: " << v_it->get_remaining_days() << endl;
-    }
-      
+      int expired_item_count = 0;
+      // for each vector, iterate over it and update the shelf life (decrement by 1 day)
+      for(vector<food_item>::iterator v_it = it->second.begin(); v_it != it->second.end(); ++v_it)
+      {
+        v_it->update_shelf_life();
 
-    // while the front element of this vector has 0 remaining days, remove it from the vector
-    while(it->second.front().get_remaining_days() == 0)
-      it->second.erase(it->second.begin()); // remove from beginning index (0)
+        if(v_it->get_remaining_days() == 0)
+          expired_item_count++;
+        
+        // test code
+        cout << "Remaining Days: " << v_it->get_remaining_days() << endl;
+      } 
+
+      // while there are expired items, remove them
+      for(int i = expired_item_count; i > 0; i--)
+        it->second.erase(it->second.begin()); // remove from beginning index (0)      
+    }
   }
 } 
 
@@ -157,7 +164,7 @@ void inventory::update_inventory()
   */
 std::string inventory::to_string()
 {
-return warehouse_name;
+  return warehouse_name;
 }
 
 

@@ -93,6 +93,7 @@ void report::generate_report(string filename)
       // add the food item to our map with upc code key and food item value
       all_foods[upc_code] = f; 
 
+      // test code
       for (map<string, food_item>::iterator it = all_foods.begin(); it != all_foods.end(); ++it)
         cout << it->second.to_string() << endl;
 
@@ -190,10 +191,12 @@ void report::generate_report(string filename)
     else if (first_word == "Next")
     {
       // increment days counter
-      days_counter++;
+      // days_counter++;
 
-      // for(map<string, inventory>::iterator it = all_warehouses.begin(); it != all_warehouses.end(); ++it)
-      //   it->second.update_inventory();
+      for(map<string, inventory>::iterator it = all_warehouses.begin(); it != all_warehouses.end(); ++it)
+        it->second.update_inventory();
+        // cout << "Inventory: " << it->second.to_string() << endl;
+        
     }
     else if (first_word == "End")
     {
