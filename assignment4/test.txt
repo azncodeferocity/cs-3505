@@ -8,4 +8,5 @@ Receive: 0984523912 10 Tacoma
 Receive: 0353264991 8 Tacoma
 Next day:
 Receive: 0353264991 4 Tacoma
+Receive: 0353264991 8 Columbus
 Next day:

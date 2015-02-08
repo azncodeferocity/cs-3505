@@ -122,6 +122,8 @@ map<string, vector<food_item> > inventory::get_all_foods()
  */
 void inventory::update_inventory()
 {
+  bool debug = false;
+
   // for each value in the map, iterate over it and get the vector
   for (map<string, vector<food_item> >::iterator it = items_in_stock.begin(); it != items_in_stock.end(); ++it)
   {
@@ -138,7 +140,8 @@ void inventory::update_inventory()
           expired_item_count++;
         
         // test code
-        cout << "Remaining Days: " << v_it->get_remaining_days() << endl;
+	if(debug)
+	  cout << "Remaining Days: " << v_it->get_remaining_days() << endl;
       } 
 
       // while there are expired items, remove them
