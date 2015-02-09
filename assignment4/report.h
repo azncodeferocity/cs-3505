@@ -36,7 +36,7 @@ public:
 
 private:
   std::string start_date;                           // start date for the report
-  int days_counter;                                 // counter for days in the report initialized to 0
+  // int days_counter;                                 // counter for days in the report initialized to 0
   std::map<std::string, food_item> all_foods;       // a map from all upc codes to food items for this report
   std::map<std::string, inventory> all_warehouses;  // a map from all warehouses names to inventories for this report
 

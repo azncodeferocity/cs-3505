@@ -14,15 +14,11 @@
 #include <set>
 #include <map>
 #include <iterator>
-#include <boost/foreach.hpp>
-#include <boost/range/adaptor/map.hpp>
-#include <boost/algorithm/string/trim.hpp>
 #include "report.h"
 #include "inventory.h"
 #include "food_item.h"
 
 using namespace std;
-
 
 /*
  * This in the main entry point for the inventory analysis program.
@@ -46,14 +42,13 @@ int main(int argc, char* argv[])
       return 1;
     }
 
-  report r; // create a new report object
+  report r; // create a new report object to generate our output 
 
   r.generate_report(argv[1]); // generate the report by scanning through the data file argument
 
-  map<string, food_item> foods = r.get_all_foods();
-  map<string, inventory> invts = r.get_all_inventories();
-
   // Test code
+  // map<string, food_item> foods = r.get_all_foods();
+  // map<string, inventory> invts = r.get_all_inventories();
   // for (map<string, food_item>::iterator it = foods.begin(); it != foods.end(); ++it)
   // {
   //   cout << "Key: " << it->first << endl;
@@ -80,11 +75,7 @@ int main(int argc, char* argv[])
   map<string, food_item> unstocked = r.get_unstocked_products();
  
   for(map<string, food_item>::iterator inv_it = unstocked.begin();inv_it != unstocked.end(); ++inv_it)
-  {
-    cout<<inv_it->first<<" "<<inv_it->second.get_food_name()<<endl;
-  }
-
-  // set<food_item> unstocked = r.get_unstocked_products();
+    cout << inv_it->second.to_string() << endl;
 
   // test code
   // food_item::food_item pizza("0984713912", 3, "pizza");
@@ -100,10 +91,7 @@ int main(int argc, char* argv[])
   map<string, food_item> well_stocked = r.get_stocked_products();
  
   for(map<string, food_item>::iterator inv_it = well_stocked.begin();inv_it != well_stocked.end(); ++inv_it)
-  {
-    cout<<inv_it->first<<" "<<inv_it->second.get_food_name()<<endl;
-  }
-
+    cout << inv_it->second.to_string() << endl;
 
   cout << "\n"; // single blank line
 

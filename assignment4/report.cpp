@@ -35,7 +35,7 @@ using namespace std;
 report::report()
 {
   // the relative number of days that have passed, initialize to zero
-  days_counter = 0; 
+  // days_counter = 0; 
 }
 
 /*
@@ -96,12 +96,10 @@ void report::generate_report(string filename)
       // add the food item to our map with upc code key and food item value
       all_foods[upc_code] = f; 
 
-      // test code
-      if(debug)
-	for (map<string, food_item>::iterator it = all_foods.begin(); it != all_foods.end(); ++it)
-	  cout << it->second.to_string() << endl;
-
       // Debugging code
+      if(debug)
+        for (map<string, food_item>::iterator it = all_foods.begin(); it != all_foods.end(); ++it)
+          cout << it->second.to_string() << endl;
       // cout << "**FoodItem: " << f.to_string() << endl;
     }
     else if (first_word == "Warehouse")
@@ -194,28 +192,17 @@ void report::generate_report(string filename)
     }
     else if (first_word == "Next")
     {
-      // increment days counter
-      // days_counter++;
-
       for(map<string, inventory>::iterator it = all_warehouses.begin(); it != all_warehouses.end(); ++it)
         it->second.update_inventory();
         // cout << "Inventory: " << it->second.to_string() << endl;
-        
     }
     else if (first_word == "End")
     {
-      // return
+      return;
     }
-    else
-    {
-
-    }
-
+    else{}
   }
-
-
 }
-
 
 /*
  * Getter for all foods
@@ -238,30 +225,25 @@ map<string, inventory> report::get_all_inventories()
 }
 
 
-/*
- * Getter for set of stocked food items
+/* Getter for set of well stocked food items
  * 
- *
  */
 map<string, food_item> report::get_stocked_products()
 {
-  //Create a map of UPC codes to food_items to hold all unstocked foods
+  // Create a map of UPC codes to food_items to hold all well stocked foods
   map<string, food_item> well_stocked_foods;
 
-  //Create a map of UPC codes to ints that shows how many locations each
-  // food item exists in.
+  // Create a map of UPC codes to ints that shows how many locations each food item exists in.
   map<string, int> item_locations;
 
-  //Initialize each item as appearing in 0 locations.
+  // Initialize each item as appearing in 0 locations.
   for(map<string, food_item>::iterator it = all_foods.begin(); it != all_foods.end(); ++it)
-  {
     item_locations[it->first] = 0;
-  }
 
-  //Loop through every warehouse
+  // Loop through every warehouse
   for(map<string,inventory>::iterator it = all_warehouses.begin(); it != all_warehouses.end(); ++it)
   {
-    //Get each inventory
+    // Get each inventory
     map<string, vector<food_item> > inv = it->second.get_all_foods();
 
     // For each inventory, loop through all of their food items 
@@ -271,29 +253,25 @@ map<string, food_item> report::get_stocked_products()
     {
       if (inv_it->second.size() > 0)
       {
-	map<string, int>::iterator food_it = item_locations.find(inv_it->first);
-	if(food_it != item_locations.end())
-	  food_it->second = food_it->second + 1;
+        map<string, int>::iterator food_it = item_locations.find(inv_it->first);
+        if(food_it != item_locations.end())
+          food_it->second = food_it->second + 1;
       }
     }
   }
 
-  //For each item that was in more than 1 warehouse, add it to the map of
+  // For each item that was in more than 1 warehouse, add it to the map of
   // well stocked foods.
   for(map<string, int>::iterator it = item_locations.begin(); it != item_locations.end(); ++it)
-  {
     if (it->second > 1)
       well_stocked_foods[it->first] = (all_foods.find(it->first))->second;
-  }
 
   return well_stocked_foods;
 }
 
-
 /* Getter for set of unstocked food items
  * 
  */
- 
 map<string, food_item> report::get_unstocked_products()
 {
   //Create a map of UPC codes to food_items to hold all unstocked foods
@@ -317,7 +295,7 @@ map<string, food_item> report::get_unstocked_products()
       //cout<<inv_it->second.size()<<endl;
       //If the vector of a food item has a size of 0, then it is not unstocked.
       if (inv_it->second.size() != 0)
-	all_unstocked_foods.erase(inv_it->first);
+        all_unstocked_foods.erase(inv_it->first);
     }
   }
 
