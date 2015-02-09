@@ -3,12 +3,8 @@
  * Course: CS 3505
  * Assignment: 4
  * 
- * 
  *
  */
-
-
-
 #include "food_item.h"
 
 /*******************************************************
@@ -89,10 +85,5 @@ std::string food_item::to_string()
 {
   return upc_code + " " + food_name;
 }
-
-// bool operator< (food_item & rhs) const
-// {
-
-// }
 
  

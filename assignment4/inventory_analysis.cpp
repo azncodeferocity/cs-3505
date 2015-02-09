@@ -7,7 +7,6 @@
  * which generates the report
  *
  */
-
 #include <iostream>
 #include <fstream>
 #include <vector>
