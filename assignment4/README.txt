@@ -26,8 +26,49 @@ Do we need a default constructor in inventory/ food_item?
 How to initialize sets - should we initialize to null?
 
 
-*********** PROGRAM NOTES ***********
+*********** TEST NOTES ***********
 
+***Test1.txt expected results:
+
+Unstocked Products:
+0984523912 the orange box
+
+Well-Stocked Products:
+0353264991 chestnut puree with vanilla
+
+***Test2.txt expected results:
+
+Unstocked Products:
+0984523912 the orange box
+
+Well-Stocked Products:
+0353264991 chestnut puree with vanilla
+
+
+***Test3.txt expected results:
+
+Unstocked Products:
+0984523912 the orange box
+
+Well-Stocked Products:
+0353264991 chestnut puree with vanilla
+
+***Test4.txt expected results:
+
+Unstocked Products:
+0289016410 organic fruit munchies
+0353264991 chestnut puree with vanilla
+0984523912 the orange box
+
+Well-Stocked Products:
+
+***Test5.txt expected results:
+
+Unstocked Products:
+
+Well-Stocked Products:
+
+*********** PROGRAM NOTES ***********
 
 Functionality of the classes needed for HW #4
 Report

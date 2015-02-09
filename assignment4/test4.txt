@@ -1,0 +1,17 @@
+FoodItem - UPC Code: 0353264991  Shelf life: 3  Name: chestnut puree with vanilla
+FoodItem - UPC Code: 0289016410  Shelf life: 2  Name: organic fruit munchies
+FoodItem - UPC Code: 0984523912  Shelf life: 1  Name: the orange box
+Warehouse - Columbus
+Warehouse - Scottsdale
+Warehouse - Tacoma
+Start date: 05/01/2010
+End
+Receive: 0984523912 1 Tacoma
+Receive: 0289016410 1 Tacoma
+Receive: 0353264991 1 Tacoma
+Receive: 0984523912 1 Scottsdale
+Receive: 0289016410 1 Scottsdale
+Receive: 0353264991 1 Scottsdale
+Receive: 0984523912 1 Columbus
+Receive: 0289016410 1 Columbus
+Receive: 0353264991 1 Columbus

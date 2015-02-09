@@ -14,9 +14,6 @@
 #include <set>
 #include <map>
 #include <iterator>
-#include <boost/foreach.hpp>
-#include <boost/range/adaptor/map.hpp>
-#include <boost/algorithm/string/trim.hpp>
 #include "report.h"
 #include "inventory.h"
 #include "food_item.h"
