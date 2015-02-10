@@ -1,5 +1,5 @@
 /* Author: Basil Vetas & Lance Petersen
- * Date: February 4, 2015
+ * Date: February 5, 2015
  * Course: CS 3505
  * Assignment: 4
  * 
@@ -21,7 +21,7 @@ food_item::food_item()
 }
 
 /*
- * Main constructor
+ * Initialized constructor
  *
  */
 food_item::food_item(std::string upc, int initial_life, std::string name)

@@ -1,11 +1,9 @@
 /* Author: Basil Vetas & Lance Petersen
- * Date: February 4, 2015
+ * Date: February 5, 2015
  * Course: CS 3505
  * Assignment: 4
- * 
- * 
- *
  */
+ 
 #ifndef FOOD_ITEM_H
 #define FOOD_ITEM_H
 
@@ -22,19 +20,18 @@ class food_item
 {   
 public:
   food_item();            //Default constructor
-  food_item(std::string upc, int initial_life, std::string name); // Constructor  
+  food_item(std::string upc, int initial_life, std::string name); // Initialized constructor  
   ~food_item();           // Destructor
     
-  void update_shelf_life();     // Updates this food items remaining life at the start of the next day.
+  void update_shelf_life();           // Decrements the days until expiration by one
   std::string get_food_name() const;  // Getter for food name
   std::string get_upc_code() const;   // Getter for upc code
   int get_remaining_days() const;     // Getter for days until expiration
-  std::string to_string();      // For printing a food item to console
-  // bool operator< (food_item & rhs) const;
+  std::string to_string();            // For printing a food item to console
 
 private:
   std::string upc_code;    // Uniquely identifies a type of food item
-  std::string food_name;        // The name of this food item.
+  std::string food_name;   // The name of this food item.
   int days_to_expiration;  // How long a food item of this type can be stored, initialize to shelf life
 };
 

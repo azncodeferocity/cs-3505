@@ -1,10 +1,7 @@
 /* Author: Basil Vetas & Lance Petersen
- * Date: February 4, 2015
+ * Date: February 5, 2015
  * Course: CS 3505
  * Assignment: 4
- * 
- * This class generates the report
- *
  */
 
 #include <iostream>
@@ -20,9 +17,9 @@
 
 using namespace std;
 
- // BOOST_FOREACH
- // BOOST_STRING_TRIM_HPP
- // BOOST_RANGE_ADAPTOR_MAP_HPP
+/*******************************************************
+* report member function definitions
+***************************************************** */
 
 /*
  * Default constructor
@@ -31,8 +28,7 @@ using namespace std;
  */
 report::report()
 {
-  // the relative number of days that have passed, initialize to zero
-  // days_counter = 0; 
+
 }
 
 /*

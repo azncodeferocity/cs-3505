@@ -1,6 +1,5 @@
 
 # The first rule is the default
-# may need to add .h files as we end up using them in .cpp files
 
 a.out:	inventory_analysis.o report.o inventory.o food_item.o
 	g++ -o a.out inventory_analysis.o report.o inventory.o food_item.o
