@@ -1,0 +1,1 @@
+Checkpoint 1 started on 2/17/15 at appx 8pm
