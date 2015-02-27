@@ -1236,14 +1236,6 @@ static int update_thread_context(AVCodecContext *dst, const AVCodecContext *src)
 
 static av_cold int png_dec_init(AVCodecContext *avctx)
 {
-    static int was_here = 0;
-    if(!was_here)
-    {
-      was_here = 1;
-      printf("\n*** CS 3505:  Executing in function png_dec_init in file libavcodec/pngdec.c ***");
-      printf("\n*** CS 3505:  Modified by Basil Vetas and Lance Petersen ***\n");
-    }
-
     PNGDecContext *s = avctx->priv_data;
 
     s->avctx = avctx;

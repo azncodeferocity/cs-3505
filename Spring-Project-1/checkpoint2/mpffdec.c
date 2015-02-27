@@ -24,6 +24,49 @@
 #include "mpff.h"
 // #include "libavutil/imgutils.h"
 
+AVCodec ff_mpff_decoder = {
+    .name           = "mpff",
+    .long_name      = NULL_IF_CONFIG_SMALL("MPFF image (a CS 3505 project)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_MPFF,
+    .init           = mpff_decode_init,
+    .close          = mpff_decode_end,
+    .decode         = mpff_decode_frame,
+}
+
+typedef struct MpffState {
+  AVCodecContext *avctx;
+
+} MpffState;
+
+/* 
+ * Initialize decoder
+ */
+static av_cold int mpff_decode_init(AVCodecContext *avctx) 
+{
+  MpffState *m = avctx->priv_data;
+  m->avctx = avctx;
+
+  return 0 ;
+}
+
+
+/* 
+ * Decode frame
+ */
+static int mpff_decode_frame(AVCodecContext *avctx, void *data, int *got_frame, AVPacket *avpkt) 
+{
+
+}
+
+/* 
+ * Close decoder
+ */
+static av_cold int mpff_decode_close(AVCodecContext *avctx) 
+{
+
+}
+
 
 
 

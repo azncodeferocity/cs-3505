@@ -23,7 +23,7 @@
  #include "internal.h"
  #include "mpff.h"
  // #include "libavutil/avassert.h"
-
+ 
 AVCodec ff_mpff_encoder = {
   .name           = "mpff",
   .long_name      = NULL_IF_CONFIG_SMALL("MPFF image (a CS 3505 project)"),

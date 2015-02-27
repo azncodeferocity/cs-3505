@@ -441,13 +441,6 @@ static int gif_parse_next_image(GifState *s, AVFrame *frame)
 
 static av_cold int gif_decode_init(AVCodecContext *avctx)
 {
-    static int was_here = 0;
-    if(!was_here)
-    {
-      was_here = 1;
-      printf("\n*** CS 3505:  Executing in function gif_decode_init in file libavcodec/gifdec.c ***");
-      printf("\n*** CS 3505:  Modified by Basil Vetas and Lance Petersen ***\n");
-    }
     GifState *s = avctx->priv_data;
 
     s->avctx = avctx;
