@@ -83,6 +83,8 @@ static int mpff_encode_frame(AVCodecContext *avctx, AVPacket *pkt, const AVFrame
   bytestream_put_byte(&buf, 'F');
   bytestream_put_byte(&buf, 'F');
   bytestream_put_le32(&buf, packet_size);
+  bytestream_put_le32(&buf, avctx->width);
+  bytestream_put_le32(&buf, avctx->height);
 
 
   /* indicates we got the packet and normal return */
